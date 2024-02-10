@@ -7,6 +7,9 @@ import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.db.model.UserAuthEntity;
 import guru.qa.niffler.jupiter.MyDbUser;
 import guru.qa.niffler.jupiter.DbUserCRUDExtension;
+import guru.qa.niffler.page.LoginPage;
+import guru.qa.niffler.page.MainPage;
+import guru.qa.niffler.page.WelcomePage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -18,11 +21,16 @@ public class MyLoginTest extends BaseWebTest {
   @MyDbUser(username = "Ivan", password = "12345")
   void statisticShouldBeVisibleAfterLoginWithDbUser(UserAuthEntity userAuth) {
     Selenide.open("http://127.0.0.1:3000/main");
-    $("a[href*='redirect']").click();
-    $("input[name='username']").setValue(userAuth.getUsername());
-    $("input[name='password']").setValue(userAuth.getPassword());
-    $("button[type='submit']").click();
-    $(".main-content__section-stats").should(visible);
+    new WelcomePage()
+        .clickLoginBtn();
+
+    new LoginPage()
+        .setLogin(userAuth.getUsername())
+        .setPassword(userAuth.getPassword())
+        .submit();
+
+    new MainPage()
+        .checkThatStatisticDisplayed();
 
   }
 
@@ -30,11 +38,16 @@ public class MyLoginTest extends BaseWebTest {
   @MyDbUser
   void statisticShouldBeVisibleAfterLoginWithEmptyDbUser(UserAuthEntity userAuth) {
     Selenide.open("http://127.0.0.1:3000/main");
-    $("a[href*='redirect']").click();
-    $("input[name='username']").setValue(userAuth.getUsername());
-    $("input[name='password']").setValue(userAuth.getPassword());
-    $("button[type='submit']").click();
-    $(".main-content__section-stats").should(visible);
+    new WelcomePage()
+        .clickLoginBtn();
+
+    new LoginPage()
+        .setLogin(userAuth.getUsername())
+        .setPassword(userAuth.getPassword())
+        .submit();
+
+    new MainPage()
+        .checkThatStatisticDisplayed();
   }
 
 }

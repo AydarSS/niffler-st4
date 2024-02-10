@@ -1,4 +1,4 @@
-package guru.qa.niffler.test.pages;
+package guru.qa.niffler.page;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.text;

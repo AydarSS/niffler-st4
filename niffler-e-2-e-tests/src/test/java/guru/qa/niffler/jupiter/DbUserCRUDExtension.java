@@ -48,7 +48,7 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
 
     Optional<Method> methodAnnotatedByUser = methods
         .stream()
-        .filter(method -> method.isAnnotationPresent(DbUser.class))
+        .filter(method -> method.isAnnotationPresent(MyDbUser.class))
         .findFirst();
 
     if(methodAnnotatedByUser.isEmpty()) {
@@ -58,16 +58,16 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
     UserAuthEntity userAuthEntity = new UserAuthEntity();
     UserEntity userEntity = new UserEntity();
 
-    DbUser dbUser = methodAnnotatedByUser.get().getAnnotation(DbUser.class);
+    MyDbUser myDbUser = methodAnnotatedByUser.get().getAnnotation(MyDbUser.class);
 
     String fakeRandomUser = UUID.randomUUID().toString();
 
-    userEntity.setUsername(dbUser.username().equals("") ? fakeRandomUser : dbUser.username());
+    userEntity.setUsername(myDbUser.username().equals("") ? fakeRandomUser : myDbUser.username());
     userEntity.setCurrency(CurrencyValues.RUB);
     userRepository.createInUserdata(userEntity);
 
-    userAuthEntity.setUsername(dbUser.username().equals("") ? fakeRandomUser : dbUser.username());
-    userAuthEntity.setPassword(dbUser.password().equals("") ? fakeUserPassword : dbUser.password());
+    userAuthEntity.setUsername(myDbUser.username().equals("") ? fakeRandomUser : myDbUser.username());
+    userAuthEntity.setPassword(myDbUser.password().equals("") ? fakeUserPassword : myDbUser.password());
     userAuthEntity.setEnabled(true);
     userAuthEntity.setAccountNonExpired(true);
     userAuthEntity.setAccountNonLocked(true);
@@ -103,7 +103,7 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
   @Override
   public boolean supportsParameter(ParameterContext parameterContext,
       ExtensionContext extensionContext) throws ParameterResolutionException {
-    return AnnotationSupport.findAnnotation(extensionContext.getRequiredTestMethod(), DbUser.class)
+    return AnnotationSupport.findAnnotation(extensionContext.getRequiredTestMethod(), MyDbUser.class)
         .isPresent() &&
         parameterContext.getParameter().getType().isAssignableFrom(UserAuthEntity.class);
   }

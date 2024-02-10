@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
-public class SpendResolverExtension implements ParameterResolver {
+public class MySpendResolverExtension implements ParameterResolver {
 
   @Override
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
@@ -18,7 +18,7 @@ public class SpendResolverExtension implements ParameterResolver {
 
   @Override
   public SpendJson resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    return extensionContext.getStore(SpendExtension.NAMESPACE)
+    return extensionContext.getStore(MySpendExtension.NAMESPACE)
         .get(extensionContext.getUniqueId(), SpendJson.class);
   }
 }

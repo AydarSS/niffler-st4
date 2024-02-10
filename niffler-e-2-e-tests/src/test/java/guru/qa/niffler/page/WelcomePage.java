@@ -1,24 +1,20 @@
-package guru.qa.niffler.test.pages;
+package guru.qa.niffler.page;
 
 import static com.codeborne.selenide.Selenide.$;
 
 import com.codeborne.selenide.SelenideElement;
 
-public class WelcomePage {
+public class WelcomePage  extends BasePage<WelcomePage> {
 
   private SelenideElement loginBtn = $("a:nth-child(1)");
-
   private SelenideElement registerBtn = $("a:nth-child(2)");
 
-  public WelcomePage clickLoginBtn() {
+  public void clickLoginBtn() {
     loginBtn.click();
-    return this;
   }
 
-  public WelcomePage clickRegisterBtn() {
+  public void clickRegisterBtn() {
     registerBtn.click();
-    return this;
-    //todo return RegisterPage
   }
 
 }
