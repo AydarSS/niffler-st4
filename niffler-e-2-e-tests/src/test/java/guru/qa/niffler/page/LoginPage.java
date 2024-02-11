@@ -3,6 +3,7 @@ package guru.qa.niffler.page;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPage extends BasePage<LoginPage> {
@@ -10,6 +11,7 @@ public class LoginPage extends BasePage<LoginPage> {
   private final SelenideElement loginInput = $("input[name='username']");
   private final SelenideElement passwordInput = $("input[name='password']");
   private final SelenideElement submitBtn = $("button[type='submit']");
+
 
   @Step("")
   public LoginPage setLogin(String login) {
@@ -26,5 +28,14 @@ public class LoginPage extends BasePage<LoginPage> {
   @Step("")
   public void submit() {
     submitBtn.click();
+  }
+
+
+  public LoginPage loginByUserAndPassword(String user, String password) {
+    loginInput.setValue(user);
+    passwordInput.setValue(password);
+    submitBtn.click();
+    return this;
+
   }
 }

@@ -1,4 +1,4 @@
-package guru.qa.niffler.test.pages;
+package guru.qa.niffler.page;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.text;
@@ -8,7 +8,7 @@ import static com.codeborne.selenide.Selenide.$;
 
 import com.codeborne.selenide.ElementsCollection;
 
-public class FriendsPage {
+public class FriendsPage extends BasePage<FriendsPage>{
 
   private final ElementsCollection friendsTable = $(".abstract-table tbody").$$("tr");
 
