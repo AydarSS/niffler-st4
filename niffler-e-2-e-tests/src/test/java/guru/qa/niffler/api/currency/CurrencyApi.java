@@ -14,6 +14,6 @@ public interface CurrencyApi {
   Call<List<CurrencyJson>> getAllCurrencies();
 
   @POST("/calculate")
-  Call<CurrencyCalculateJson> getAllCurrencies(@Body CurrencyCalculateJson currencyCalculate);
+  Call<CurrencyCalculateJson> getAllCurrenciesCalculate(@Body CurrencyCalculateJson currencyCalculate);
 
 }
