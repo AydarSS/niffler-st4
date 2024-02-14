@@ -36,6 +36,5 @@ public class LoginPage extends BasePage<LoginPage> {
     passwordInput.setValue(password);
     submitBtn.click();
     return this;
-
   }
 }

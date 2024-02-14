@@ -15,7 +15,6 @@ public class AuthorityEntityRowMapper implements RowMapper<AuthorityEntity> {
   public AuthorityEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
     AuthorityEntity authorityEntity = new AuthorityEntity();
     authorityEntity.setId(rs.getObject(1, UUID.class));
-    authorityEntity.setUserId(rs.getObject(2, UUID.class));
     authorityEntity.setAuthority(Enum.valueOf(Authority.class, rs.getString(3)));
 
     return authorityEntity;

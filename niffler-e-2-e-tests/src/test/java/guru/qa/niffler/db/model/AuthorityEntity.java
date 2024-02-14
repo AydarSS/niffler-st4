@@ -30,7 +30,6 @@ public class AuthorityEntity implements Serializable {
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", nullable = false, columnDefinition = "UUID default gen_random_uuid()")
   private UUID id;
-  private UUID userId;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
@@ -58,7 +57,7 @@ public class AuthorityEntity implements Serializable {
 
   public AuthorityEntity(UUID id, UUID userId, Authority authority) {
     this.id = id;
-    this.userId = userId;
+    this.user.setId(userId);
     this.authority = authority;
   }
 }

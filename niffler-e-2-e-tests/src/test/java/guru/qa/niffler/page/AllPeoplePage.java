@@ -8,7 +8,7 @@ import static com.codeborne.selenide.Selenide.$;
 
 import com.codeborne.selenide.ElementsCollection;
 
-public class AllPeoplePage {
+public class AllPeoplePage extends BasePage<AllPeoplePage> {
 
   private final ElementsCollection invitationTable = $(".abstract-table tbody").$$("tr");
 

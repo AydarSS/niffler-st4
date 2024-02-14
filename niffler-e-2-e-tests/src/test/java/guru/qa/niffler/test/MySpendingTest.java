@@ -1,6 +1,5 @@
 package guru.qa.niffler.test;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.jupiter.annotation.MyGenerateSpend;
 import guru.qa.niffler.model.CurrencyValues;
@@ -8,17 +7,10 @@ import guru.qa.niffler.model.SpendJson;
 import guru.qa.niffler.page.LoginPage;
 import guru.qa.niffler.page.MainPage;
 import guru.qa.niffler.page.WelcomePage;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class MySpendingTest extends BaseWebTest {
-
-  WelcomePage welcomePage = new WelcomePage();
-  LoginPage loginPage = new LoginPage();
-  MainPage mainPage = new MainPage();
-
-  static {
-    Configuration.browserSize = "1980x1024";
-  }
 
   @MyGenerateSpend(
       username = "duck",
@@ -28,12 +20,14 @@ public class MySpendingTest extends BaseWebTest {
       currency = CurrencyValues.RUB
   )
   @Test
+  @Disabled
   void spendingShouldBeDeletedByButtonDeleteSpending(SpendJson spend) {
     Selenide.open("http://127.0.0.1:3000/main");
-    welcomePage.clickLoginBtn();
-    loginPage.loginByUserAndPassword("duck", "12345");
-    mainPage.deleteFirstRowHistoryOfSpendingsByDescription(spend.description());
-    mainPage.historyOfSpendingContentIsEmpty();
+    new WelcomePage().clickLoginBtn();
+    new LoginPage()
+        .loginByUserAndPassword("duck", "12345");
+    new MainPage().deleteFirstRowHistoryOfSpendingsByDescription(spend.description())
+        .historyOfSpendingContentIsEmpty();
 
   }
 

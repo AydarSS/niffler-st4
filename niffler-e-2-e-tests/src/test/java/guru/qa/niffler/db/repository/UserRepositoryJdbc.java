@@ -131,7 +131,6 @@ public class UserRepositoryJdbc implements UserRepository {
 
           AuthorityEntity authorityEntity = new AuthorityEntity();
           authorityEntity.setId(rs.getObject(8, UUID.class));
-          authorityEntity.setUserId(rs.getObject(9, UUID.class));
           authorityEntity.setAuthority(Enum.valueOf(Authority.class, rs.getString(10)));
           userAuthEntity.getAuthorities().add(authorityEntity);
         }
