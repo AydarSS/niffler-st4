@@ -5,8 +5,8 @@ import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.jupiter.annotation.MyGenerateSpend;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
-import guru.qa.niffler.test.pages.LoginPage;
-import guru.qa.niffler.test.pages.MainPage;
+import guru.qa.niffler.page.LoginPage;
+import guru.qa.niffler.page.MainPage;
 import guru.qa.niffler.page.WelcomePage;
 import org.junit.jupiter.api.Test;
 

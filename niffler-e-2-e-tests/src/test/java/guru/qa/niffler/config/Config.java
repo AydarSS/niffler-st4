@@ -12,6 +12,12 @@ public interface Config {
 
   String jdbcHost();
 
+  String spendUrl();
+
+  String userUrl();
+
+  String currencyUrl();
+
   default String jdbcUser() {
     return "postgres";
   }

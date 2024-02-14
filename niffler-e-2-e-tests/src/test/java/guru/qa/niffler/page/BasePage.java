@@ -11,10 +11,16 @@ public abstract class BasePage<T extends BasePage> {
 
   protected final SelenideElement toaster = $(".Toastify__toast-body");
 
+  protected final Header header = new Header();
+
   @SuppressWarnings("unchecked")
   @Step("")
   public T checkMessage(Msg msg) {
     toaster.shouldHave(text(msg.getMessage()));
     return (T) this;
+  }
+
+  public Header getHeader() {
+    return header;
   }
 }
