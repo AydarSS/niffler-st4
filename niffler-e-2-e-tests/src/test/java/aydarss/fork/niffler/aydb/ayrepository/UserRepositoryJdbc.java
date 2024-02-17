@@ -6,7 +6,7 @@ import aydarss.fork.niffler.aydb.aymodel.Authority;
 import aydarss.fork.niffler.aydb.aymodel.AuthorityEntity;
 import aydarss.fork.niffler.aydb.aymodel.UserAuthEntity;
 import aydarss.fork.niffler.aydb.aymodel.UserEntity;
-import aydarss.fork.niffler.aymodel.CurrencyValues;
+import guru.qa.niffler.model.CurrencyValues;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

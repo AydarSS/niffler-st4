@@ -1,7 +1,7 @@
 package aydarss.fork.niffler.aydb.aysjdbc;
 
 import aydarss.fork.niffler.aydb.aymodel.UserEntity;
-import aydarss.fork.niffler.aymodel.CurrencyValues;
+import guru.qa.niffler.model.CurrencyValues;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;

@@ -9,6 +9,11 @@ import guru.qa.niffler.db.model.UserAuthEntity;
 import guru.qa.niffler.db.model.UserEntity;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -222,5 +227,142 @@ public class UserRepositoryJdbc implements UserRepository {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public UserAuthEntity updateUserInAuth(UserAuthEntity userAuthEntity) {
+    try (Connection conn = authDs.getConnection()) {
+      conn.setAutoCommit(false);
+
+      try (PreparedStatement userPs = conn.prepareStatement(
+          """
+                UPDATE "user"
+                SET username = ?,
+                    password = ?,
+                    enabled = ?,
+                    account_non_expired = ?,
+                    account_non_locked = ?,
+                    credentials_non_expired = ?
+              WHERE id = ?
+              """);
+          PreparedStatement authorityDeletePsByAuthority = conn.prepareStatement(
+              """
+                  DELETE FROM "authority" WHERE  user_id = ? AND authority = ?
+                  """);
+          PreparedStatement authorityInsertPs = conn.prepareStatement(
+              """
+                  INSERT INTO "authority"(user_id, authority) VALUES (?, ?)
+                   """);
+      ) {
+
+        userPs.setString(1, userAuthEntity.getUsername());
+        userPs.setString(2, pe.encode(userAuthEntity.getPassword()));
+        userPs.setBoolean(3, userAuthEntity.getEnabled());
+        userPs.setBoolean(4, userAuthEntity.getAccountNonExpired());
+        userPs.setBoolean(5, userAuthEntity.getAccountNonLocked());
+        userPs.setBoolean(6, userAuthEntity.getCredentialsNonExpired());
+        userPs.setObject(7, userAuthEntity.getId());
+
+        userPs.executeUpdate();
+
+        List<AuthorityEntity> authorityEntities = findAuthoritiesByUserId(userAuthEntity.getId());
+        Set<Authority> authoritiesFromDb = mapAuthorityEntitiesToAuthority(authorityEntities);
+        Set<Authority> authoritiesCandidate = mapAuthorityEntitiesToAuthority(
+            userAuthEntity.getAuthorities());
+        Set<Authority> tempSet = new HashSet<>(authoritiesFromDb);
+        tempSet.removeAll(authoritiesCandidate);
+        if (!tempSet.isEmpty()) {
+          for (Authority authority : tempSet) {
+            authorityDeletePsByAuthority.setObject(1, userAuthEntity.getId());
+            authorityDeletePsByAuthority.setString(2, authority.name());
+            authorityDeletePsByAuthority.addBatch();
+            authorityDeletePsByAuthority.clearParameters();
+          }
+          authorityDeletePsByAuthority.executeBatch();
+        }
+        tempSet = new HashSet<>(authoritiesCandidate);
+        tempSet.removeAll(authoritiesFromDb);
+        if (!tempSet.isEmpty()) {
+          for (Authority authority : tempSet) {
+            authorityInsertPs.setObject(1, userAuthEntity.getId());
+            authorityInsertPs.setString(2, authority.name());
+            authorityInsertPs.addBatch();
+            authorityInsertPs.clearParameters();
+          }
+          authorityInsertPs.executeBatch();
+        }
+        conn.commit();
+        return userAuthEntity;
+      } catch (Exception e) {
+        conn.rollback();
+        throw e;
+      } finally {
+        conn.setAutoCommit(true);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public UserEntity updateUserInUserdata(UserEntity userEntity) {
+    try (Connection conn = udDs.getConnection()) {
+      try (PreparedStatement userUpdatePs = conn.prepareStatement("""
+          UPDATE "user"
+          SET username = ?,
+              currency = ?,
+              firstname = ?,
+              surname = ?,
+              photo = ?
+          WHERE id = ?
+           """);
+      ) {
+        userUpdatePs.setString(1, userEntity.getUsername());
+        userUpdatePs.setString(2, userEntity.getCurrency().name());
+        userUpdatePs.setString(3, userEntity.getFirstname());
+        userUpdatePs.setString(4, userEntity.getSurname());
+        userUpdatePs.setBytes(5, userEntity.getPhoto());
+        userUpdatePs.setObject(6, userEntity.getId());
+        userUpdatePs.executeUpdate();
+      }
+      return userEntity;
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public List<AuthorityEntity> findAuthoritiesByUserId(UUID userId) {
+    try (Connection conn = authDs.getConnection()) {
+      try (PreparedStatement authoritySelectPs = conn.prepareStatement("""
+          SELECT id,
+                 user_id,
+                 authority
+          FROM "authority"
+          WHERE  user_id = ?
+          """);
+      ) {
+        authoritySelectPs.setObject(1, userId);
+        ResultSet rs = authoritySelectPs.executeQuery();
+        List<AuthorityEntity> authorityEntities = new ArrayList<>();
+        while (rs.next()) {
+          authorityEntities.add(new AuthorityEntity(
+              rs.getObject(1, UUID.class),
+              rs.getObject(2, UUID.class),
+              Enum.valueOf(Authority.class, rs.getString(3))
+          ));
+        }
+        return authorityEntities;
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private Set<Authority> mapAuthorityEntitiesToAuthority(List<AuthorityEntity> authorityEntities) {
+    return authorityEntities
+        .stream()
+        .map(authority -> authority.getAuthority())
+        .collect(Collectors.toSet());
   }
 }

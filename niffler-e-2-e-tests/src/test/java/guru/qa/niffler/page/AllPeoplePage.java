@@ -42,5 +42,8 @@ public class AllPeoplePage extends BasePage<AllPeoplePage> {
     return this;
   }
 
-
+  @Override
+  public AllPeoplePage waitForPageLoaded() {
+    return null;
+  }
 }
