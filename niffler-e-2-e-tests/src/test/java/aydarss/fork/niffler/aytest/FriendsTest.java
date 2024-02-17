@@ -22,37 +22,38 @@ public class FriendsTest extends BaseWebTest {
     loginPage.loginByUserAndPassword(user.username(),user.testData().password());
     mainPage
         .checkThatStatisticDisplayed()
-        .clickFriendsBtn();
+        .getHeader()
+        .goToFriendsPage();
   }
 
   @DisplayName("Проверим, что есть друг и его имя совпадает с ожидаемым")
   @Test
   void friendsTableShouldNotBeEmpty(@User(WITH_FRIENDS) UserJson user) {
-    new FriendsPage().findRecordInFriendsTable(user.testData().friendName());
+    friendsPage.findRecordInFriendsTable(user.testData().friendName());
   }
 
   @DisplayName("Проверим, что есть запись о друзьях")
   @Test
   void friendsTableShouldHaveRecordAboutFriends(@User(WITH_FRIENDS) UserJson user){
-    new FriendsPage().checkFriendsStatus(user.testData().friendName());
+    friendsPage.checkFriendsStatus(user.testData().friendName());
   }
 
   @DisplayName("Проверим, что количество друзей равно 1")
   @Test
   void friendsTableShouldHaveOneRecord(){
-    new FriendsPage().checkCountFriends(1);
+    friendsPage.checkCountFriends(1);
   }
 
   @DisplayName("Проверим, что есть кнопка Удалить")
   @Test
   void friendsTableShouldHaveRemobeBtn(@User(WITH_FRIENDS) UserJson user){
-    new FriendsPage().checkRemoveBtn(user.testData().friendName());
+    friendsPage.checkRemoveBtn(user.testData().friendName());
   }
 
   @DisplayName("Проверим, что есть аватар")
   @Test
   void friendsTableShouldHaveAvatar(@User(WITH_FRIENDS) UserJson user){
-    new FriendsPage().checkAvatar(user.testData().friendName());
+    friendsPage.checkAvatar(user.testData().friendName());
   }
 
 }

@@ -1,5 +1,6 @@
-package aydarss.fork.niffler.ayapi;
+package aydarss.fork.niffler.ayapi.aygh;
 
+import aydarss.fork.niffler.ayapi.RestClient;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.qameta.allure.Step;
 import java.io.IOException;

@@ -1,7 +1,6 @@
 package aydarss.fork.niffler.ayapi.ayspend;
 
 import aydarss.fork.niffler.ayapi.RestClient;
-import aydarss.fork.niffler.ayapi.SpendApi;
 import aydarss.fork.niffler.ayconfig.Config;
 import aydarss.fork.niffler.aymodel.CurrencyValues;
 import aydarss.fork.niffler.aymodel.SpendJson;

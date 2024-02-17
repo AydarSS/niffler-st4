@@ -1,6 +1,6 @@
 package aydarss.fork.niffler.ayjupiter.ayextension;
 
-import aydarss.fork.niffler.ayapi.SpendApi;
+import aydarss.fork.niffler.ayapi.ayspend.SpendApi;
 import aydarss.fork.niffler.ayjupiter.CategoryExtension;
 import aydarss.fork.niffler.ayjupiter.ayannotation.GenerateSpend;
 import aydarss.fork.niffler.aymodel.CategoryJson;

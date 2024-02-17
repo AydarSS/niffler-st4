@@ -7,6 +7,7 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 public class MainPage extends BasePage<MainPage> {
 
@@ -14,25 +15,22 @@ public class MainPage extends BasePage<MainPage> {
   private final SelenideElement deleteSpendingBtn = $(byText("Delete selected"));
   private final SelenideElement statisticsForm = $(".main-content__section-stats");
 
-  
-  public MainPage deleteFirstRowHistoryOfSpendingsByDescription (String description) {
+  @Step("Удаляем трату {description}")
+  public MainPage deleteFirstRowHistoryOfSpendingsByDescription(String description) {
     getFirstRowHistoryOfSpendingsByDescription(description).click();
     deleteSpendingBtn.click();
     return this;
   }
 
+  @Step("Проверяем, что история трат пустая")
   public MainPage historyOfSpendingContentIsEmpty() {
     historyOfSpendings.$$("tr").shouldHave(size(0));
     return this;
   }
 
-  public MainPage clickAllPeopleBtn() {
-    $("a[href*='people']").click();
-    return this;
-  }
-
-  public MainPage clickFriendsBtn() {
-    $("a[href*='friends']").click();
+  @Step("Проверим, что статистика отображается")
+  public MainPage checkThatStatisticDisplayed() {
+    statisticsForm.should(visible);
     return this;
   }
 
@@ -43,8 +41,4 @@ public class MainPage extends BasePage<MainPage> {
         .first();
   }
 
-  public MainPage checkThatStatisticDisplayed() {
-    statisticsForm.should(visible);
-    return this;
-  }
 }

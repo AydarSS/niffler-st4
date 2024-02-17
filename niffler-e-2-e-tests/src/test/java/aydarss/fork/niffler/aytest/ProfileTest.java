@@ -7,26 +7,28 @@ import aydarss.fork.niffler.aypage.MainPage;
 import aydarss.fork.niffler.aypage.ProfilePage;
 import aydarss.fork.niffler.aypage.WelcomePage;
 import com.codeborne.selenide.Selenide;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class ProfileTest extends BaseWebTest {
 
   @Test
+  @DisplayName("Сообщение об обновлении профиля пользователя должно показываться после его изменения")
   void testProfileUpdatedMsgShoulBeVisible() {
     Selenide.open("http://127.0.0.1:3000/main");
-    new WelcomePage()
+    welcomePage
         .clickLoginBtn();
 
-    new LoginPage()
+    loginPage
         .setLogin("duck")
         .setPassword("12345")
         .submit();
 
-    new MainPage()
+    loginPage
         .getHeader()
         .goToProfilePage();
 
-    new ProfilePage()
+    profilePage
         .setName("Vasya")
         .setSurname("Ivanov")
         .submitName()
@@ -35,21 +37,22 @@ public class ProfileTest extends BaseWebTest {
   }
 
   @Test
+  @DisplayName("Список категорий пользователя должен содержать Обучение")
   void testCategorShoulBeVisible() {
     Selenide.open("http://127.0.0.1:3000/main");
-    new WelcomePage()
+    welcomePage
         .clickLoginBtn();
 
-    new LoginPage()
+    loginPage
         .setLogin("duck")
         .setPassword("12345")
         .submit();
 
-    new MainPage()
+    mainPage
         .getHeader()
         .goToProfilePage();
 
-    new ProfilePage()
+    profilePage
         .categoriesListContans("Обучение");
 
   }

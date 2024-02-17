@@ -4,6 +4,7 @@ import aydarss.fork.niffler.aypage.RegisterPage;
 import aydarss.fork.niffler.aypage.WelcomePage;
 import com.codeborne.selenide.Selenide;
 import java.util.UUID;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class RegisterTest extends BaseWebTest {
@@ -11,10 +12,10 @@ public class RegisterTest extends BaseWebTest {
   @Test
   void testForExistingUserShouldBeErrorMessageVisible() {
     Selenide.open("http://127.0.0.1:3000/main");
-    new WelcomePage()
+    welcomePage
         .clickRegisterBtn();
 
-    new RegisterPage()
+    registerPage
         .setUsername("duck")
         .setPassword("12345")
         .setPasswordSubmit("12345")
@@ -25,10 +26,10 @@ public class RegisterTest extends BaseWebTest {
   @Test
   void testSuccessRegister() {
     Selenide.open("http://127.0.0.1:3000/main");
-    new WelcomePage()
+    welcomePage
         .clickRegisterBtn();
 
-    new RegisterPage()
+    registerPage
         .setUsername(UUID.randomUUID().toString())
         .setPassword("12345")
         .setPasswordSubmit("12345")
@@ -37,12 +38,13 @@ public class RegisterTest extends BaseWebTest {
   }
 
   @Test
+  @DisplayName("При неправильном вводе пароля второй раз, должно быть сообщение об ошибке")
   void testPasswordsNotEqualShouldBeErrorMessageVisible() {
     Selenide.open("http://127.0.0.1:3000/main");
-    new WelcomePage()
+    welcomePage
         .clickRegisterBtn();
 
-    new RegisterPage()
+    registerPage
         .setUsername(UUID.randomUUID().toString())
         .setPassword("11111")
         .setPasswordSubmit("12345")
@@ -51,12 +53,13 @@ public class RegisterTest extends BaseWebTest {
   }
 
   @Test
+  @DisplayName("Если пароль меньше 3 символов должно показываться сообщение об ошибке")
   void testPasswordLengthIsShortShouldBeErrorMessageVisible() {
     Selenide.open("http://127.0.0.1:3000/main");
-    new WelcomePage()
+    welcomePage
         .clickRegisterBtn();
 
-    new RegisterPage()
+    registerPage
         .setUsername(UUID.randomUUID().toString())
         .setPassword("11")
         .setPasswordSubmit("11")

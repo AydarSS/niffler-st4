@@ -21,32 +21,35 @@ public class InvitationReceivedTest extends BaseWebTest {
     welcomePage.clickLoginBtn();
     loginPage.loginByUserAndPassword(user.username(), user.testData().password());
     mainPage
-        .checkThatStatisticDisplayed()
-        .clickAllPeopleBtn();
+        .checkThatStatisticDisplayed();
+
+    mainPage
+        .getHeader()
+        .goToPeoplePage();
   }
 
   @DisplayName("Проверим, что есть заявка в друзья и имя совпадает с ожидаемым")
   @Test
   void invitationTableShouldNotBeEmpty(@User(INVITATION_RECIEVED) UserJson user) {
-    new AllPeoplePage().findRecordInFriendsTable(user.testData().friendName());
+    allPeoplePage.findRecordInFriendsTable(user.testData().friendName());
   }
 
   @DisplayName("Проверим, что есть кнопка принять запрос в друзья")
   @Test
   void invitationTableShouldHaveSubmitInvitationBtn(@User(INVITATION_RECIEVED) UserJson user) {
-    new AllPeoplePage().checkSubmitInvitationBtn(user.testData().friendName());
+    allPeoplePage.checkSubmitInvitationBtn(user.testData().friendName());
   }
 
   @DisplayName("Проверим, что есть кнопка отклонить запрос в друзья")
   @Test
   void invitationTableShouldHaveDeclineInvitationBtn(@User(INVITATION_RECIEVED) UserJson user) {
-    new AllPeoplePage().checkDeclineInvitationBtn(user.testData().friendName());
+    allPeoplePage.checkDeclineInvitationBtn(user.testData().friendName());
   }
 
   @DisplayName("Проверим, что есть аватар")
   @Test
   void invitationTableShouldHaveAvatar(@User(INVITATION_RECIEVED) UserJson user) {
-    new AllPeoplePage().checkAvatar(user.testData().friendName());
+    allPeoplePage.checkAvatar(user.testData().friendName());
   }
 
 

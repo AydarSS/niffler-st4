@@ -30,8 +30,9 @@ public class InvitationSendTest extends BaseWebTest {
     loginPage.loginByUserAndPassword(user.username(), user.testData().password());
     mainPage
         .checkThatStatisticDisplayed()
-        .clickAllPeopleBtn();
-    new AllPeoplePage().findRecordInFriendsTable(user.testData().friendName());
+        .getHeader()
+        .goToPeoplePage();
+    allPeoplePage.findRecordInFriendsTable(user.testData().friendName());
   }
 
   @DisplayName("Проверим, что есть запись о друзьях, ожидающая активации")
@@ -40,8 +41,9 @@ public class InvitationSendTest extends BaseWebTest {
     loginPage.loginByUserAndPassword(user.username(), user.testData().password());
     mainPage
         .checkThatStatisticDisplayed()
-        .clickAllPeopleBtn();
-    new AllPeoplePage().checkPendingInvitation(user.testData().friendName());
+        .getHeader()
+        .goToPeoplePage();
+    allPeoplePage.checkPendingInvitation(user.testData().friendName());
   }
 
   @DisplayName("Проверим, что есть аватар")
@@ -55,8 +57,9 @@ public class InvitationSendTest extends BaseWebTest {
     loginPage.loginByUserAndPassword(user.username(), user.testData().password());
     mainPage
         .checkThatStatisticDisplayed()
-        .clickAllPeopleBtn();
-    new AllPeoplePage().checkAvatar(user.testData().friendName());
+        .getHeader()
+        .goToPeoplePage();
+    allPeoplePage.checkAvatar(user.testData().friendName());
   }
 
 }

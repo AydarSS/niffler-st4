@@ -7,6 +7,7 @@ import aydarss.fork.niffler.aypage.LoginPage;
 import aydarss.fork.niffler.aypage.MainPage;
 import aydarss.fork.niffler.aypage.WelcomePage;
 import com.codeborne.selenide.Selenide;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -16,34 +17,37 @@ public class MyLoginTest extends BaseWebTest {
 
   @Test
   @MyDbUser(username = "Ivan", password = "12345")
+  @DisplayName("Стастистика должна быть видна после авторизации")
   void statisticShouldBeVisibleAfterLoginWithDbUser(UserAuthEntity userAuth) {
     Selenide.open("http://127.0.0.1:3000/main");
-    new WelcomePage()
+
+    welcomePage
         .clickLoginBtn();
 
-    new LoginPage()
+    loginPage
         .setLogin(userAuth.getUsername())
         .setPassword(userAuth.getPassword())
         .submit();
 
-    new MainPage()
+    mainPage
         .checkThatStatisticDisplayed();
 
   }
 
   @Test
   @MyDbUser
+  @DisplayName("Стастистика должна быть видна после авторизации с пустым пользователем")
   void statisticShouldBeVisibleAfterLoginWithEmptyDbUser(UserAuthEntity userAuth) {
     Selenide.open("http://127.0.0.1:3000/main");
-    new WelcomePage()
+    welcomePage
         .clickLoginBtn();
 
-    new LoginPage()
+    loginPage
         .setLogin(userAuth.getUsername())
         .setPassword(userAuth.getPassword())
         .submit();
 
-    new MainPage()
+    mainPage
         .checkThatStatisticDisplayed();
   }
 

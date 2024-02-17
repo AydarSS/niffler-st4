@@ -12,24 +12,25 @@ public class LoginPage extends BasePage<LoginPage> {
   private final SelenideElement submitBtn = $("button[type='submit']");
 
 
-  @Step("")
+  @Step("Вводим логин {login}")
   public LoginPage setLogin(String login) {
     loginInput.setValue(login);
     return this;
   }
 
-  @Step("")
+  @Step("Вводим пароль {password}")
   public LoginPage setPassword(String password) {
     passwordInput.setValue(password);
     return this;
   }
 
-  @Step("")
+  @Step("Нажимаем кнопку вход (submit)")
   public void submit() {
     submitBtn.click();
   }
 
 
+  @Step("Вводим логин {user} и {password} и входим в систему")
   public LoginPage loginByUserAndPassword(String user, String password) {
     loginInput.setValue(user);
     passwordInput.setValue(password);

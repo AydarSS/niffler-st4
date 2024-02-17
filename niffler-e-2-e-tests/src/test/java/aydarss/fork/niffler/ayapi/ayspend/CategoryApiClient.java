@@ -1,6 +1,5 @@
 package aydarss.fork.niffler.ayapi.ayspend;
 
-import aydarss.fork.niffler.ayapi.CategoryApi;
 import aydarss.fork.niffler.ayapi.RestClient;
 import aydarss.fork.niffler.ayconfig.Config;
 import aydarss.fork.niffler.aymodel.CategoryJson;

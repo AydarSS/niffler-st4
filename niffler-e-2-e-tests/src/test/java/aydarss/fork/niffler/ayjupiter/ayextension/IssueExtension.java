@@ -1,6 +1,6 @@
 package aydarss.fork.niffler.ayjupiter.ayextension;
 
-import aydarss.fork.niffler.ayapi.GhApiClient;
+import aydarss.fork.niffler.ayapi.aygh.GhApiClient;
 import aydarss.fork.niffler.ayjupiter.ayannotation.DisabledByIssue;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.extension.ConditionEvaluationResult;

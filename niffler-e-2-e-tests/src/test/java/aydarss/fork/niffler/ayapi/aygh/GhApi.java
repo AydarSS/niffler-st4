@@ -1,4 +1,4 @@
-package aydarss.fork.niffler.ayapi;
+package aydarss.fork.niffler.ayapi.aygh;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import retrofit2.Call;

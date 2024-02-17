@@ -16,6 +16,7 @@ import com.codeborne.selenide.Selenide;
 import java.util.Arrays;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -63,18 +64,17 @@ public class LoginTest extends BaseWebTest {
 
 
   @Test
+  @DisplayName("Стастистика должна быть видна после авторизации")
   void statisticShouldBeVisibleAfterLogin() {
     Selenide.open("http://127.0.0.1:3000/main");
     $("a[href*='redirect']").click();
 
-    new LoginPage()
+    loginPage
         .setLogin(userAuth.getUsername())
         .setPassword(userAuth.getPassword())
         .submit();
 
-    new MainPage()
+    mainPage
         .checkThatStatisticDisplayed();
-
-    $(".main-content__section-stats").should(visible);
   }
 }

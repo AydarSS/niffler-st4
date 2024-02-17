@@ -1,7 +1,7 @@
 package aydarss.fork.niffler.ayjupiter;
 
-import aydarss.fork.niffler.ayapi.CategoryApi;
-import aydarss.fork.niffler.ayapi.SpendApi;
+import aydarss.fork.niffler.ayapi.ayspend.CategoryApi;
+import aydarss.fork.niffler.ayapi.ayspend.SpendApi;
 import aydarss.fork.niffler.ayjupiter.aydto.CategoryDto;
 import aydarss.fork.niffler.ayjupiter.aydto.SpendDto;
 import aydarss.fork.niffler.aymodel.CategoryJson;

@@ -1,6 +1,6 @@
 package aydarss.fork.niffler.ayjupiter;
 
-import aydarss.fork.niffler.ayapi.CategoryApi;
+import aydarss.fork.niffler.ayapi.ayspend.CategoryApi;
 import aydarss.fork.niffler.aymodel.CategoryJson;
 import java.util.List;
 import java.util.Optional;
