@@ -1,0 +1,55 @@
+package aydarss.fork.niffler.aypage;
+
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
+
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
+
+public class ProfilePage extends BasePage<ProfilePage> {
+
+  private final SelenideElement nameInput = $("input[name='firstname']");
+  private final SelenideElement surnameInput = $("input[name='surname']");
+  private final SelenideElement submitBtn = $("button[type='submit']");
+
+  private final SelenideElement categoryNameInput = $("input[name='category']");
+  private final SelenideElement createCategoryBtn = $(".add-category__input-container button");
+
+  private final SelenideElement avatarEditBtn = $(".profile__avatar-edit");
+  private final SelenideElement uploadFileBtn = $(".edit-avatar__input[type='file']");
+
+  private final ElementsCollection categories = $$(".categories__list .categories__item");
+
+
+  public ProfilePage setName(String name){
+    nameInput.setValue(name);
+    return this;
+  }
+
+  public ProfilePage setSurname(String surname){
+    surnameInput.setValue(surname);
+    return this;
+  }
+
+  public ProfilePage submitName(){
+    submitBtn.click();
+    return this;
+  }
+
+  public ProfilePage setCategoryName(String name) {
+    categoryNameInput.setValue(name);
+    return this;
+  }
+
+  public ProfilePage addCategoryBtnClick(){
+    createCategoryBtn.click();
+    return this;
+  }
+
+  public ProfilePage categoriesListContans(String category) {
+    categories.texts().contains(category);
+    return this;
+  }
+
+
+}
