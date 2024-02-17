@@ -1,6 +1,6 @@
 package aydarss.fork.niffler.aydb.aymodel.ayspend;
 
-import aydarss.fork.niffler.aymodel.CurrencyValues;
+import guru.qa.niffler.model.CurrencyValues;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

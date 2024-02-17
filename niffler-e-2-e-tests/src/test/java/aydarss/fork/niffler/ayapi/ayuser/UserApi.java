@@ -1,6 +1,6 @@
 package aydarss.fork.niffler.ayapi.ayuser;
 
-import aydarss.fork.niffler.aymodel.UserJson;
+import guru.qa.niffler.model.UserJson;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;

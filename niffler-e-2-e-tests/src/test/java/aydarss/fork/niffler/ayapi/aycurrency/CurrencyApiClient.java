@@ -2,8 +2,8 @@ package aydarss.fork.niffler.ayapi.aycurrency;
 
 import aydarss.fork.niffler.ayapi.RestClient;
 import aydarss.fork.niffler.ayconfig.Config;
-import aydarss.fork.niffler.aymodel.CurrencyCalculateJson;
-import aydarss.fork.niffler.aymodel.CurrencyJson;
+import guru.qa.niffler.model.CurrencyCalculateJson;
+import guru.qa.niffler.model.CurrencyJson;
 import java.io.IOException;
 import java.util.List;
 

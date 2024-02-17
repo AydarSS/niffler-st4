@@ -1,6 +1,6 @@
 package aydarss.fork.niffler.ayjupiter.aydto;
 
-import aydarss.fork.niffler.aymodel.CurrencyValues;
+import guru.qa.niffler.model.CurrencyValues;
 import java.util.Date;
 import java.util.UUID;
 

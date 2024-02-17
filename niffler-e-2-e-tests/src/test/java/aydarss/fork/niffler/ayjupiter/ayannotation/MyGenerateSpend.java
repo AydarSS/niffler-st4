@@ -2,7 +2,7 @@ package aydarss.fork.niffler.ayjupiter.ayannotation;
 
 import aydarss.fork.niffler.ayjupiter.DatabaseSpendExtension;
 import aydarss.fork.niffler.ayjupiter.ayextension.MySpendResolverExtension;
-import aydarss.fork.niffler.aymodel.CurrencyValues;
+import guru.qa.niffler.model.CurrencyValues;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

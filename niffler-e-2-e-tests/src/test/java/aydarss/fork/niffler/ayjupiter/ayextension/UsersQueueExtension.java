@@ -4,11 +4,11 @@ package aydarss.fork.niffler.ayjupiter.ayextension;
 import static aydarss.fork.niffler.ayjupiter.ayannotation.User.UserType.INVITATION_RECIEVED;
 import static aydarss.fork.niffler.ayjupiter.ayannotation.User.UserType.INVITATION_SEND;
 import static aydarss.fork.niffler.ayjupiter.ayannotation.User.UserType.WITH_FRIENDS;
-import static aydarss.fork.niffler.aymodel.UserJson.createUser;
+import static guru.qa.niffler.model.UserJson.createUser;
 
 import aydarss.fork.niffler.ayjupiter.ayannotation.User;
 import aydarss.fork.niffler.ayjupiter.ayannotation.User.UserType;
-import aydarss.fork.niffler.aymodel.UserJson;
+import guru.qa.niffler.model.UserJson;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;

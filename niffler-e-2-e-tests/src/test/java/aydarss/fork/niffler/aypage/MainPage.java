@@ -6,6 +6,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
+import aydarss.fork.niffler.aypage.aycomponent.SpendingTable;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 
@@ -14,6 +15,7 @@ public class MainPage extends BasePage<MainPage> {
   private final SelenideElement historyOfSpendings = $(".spendings-table tbody");
   private final SelenideElement deleteSpendingBtn = $(byText("Delete selected"));
   private final SelenideElement statisticsForm = $(".main-content__section-stats");
+  private final SpendingTable spendingTable = new SpendingTable();
 
   @Step("Удаляем трату {description}")
   public MainPage deleteFirstRowHistoryOfSpendingsByDescription(String description) {
@@ -39,6 +41,10 @@ public class MainPage extends BasePage<MainPage> {
         .find(text(description))
         .$$("td")
         .first();
+  }
+
+  public SpendingTable getSpendingTable() {
+    return spendingTable;
   }
 
 }

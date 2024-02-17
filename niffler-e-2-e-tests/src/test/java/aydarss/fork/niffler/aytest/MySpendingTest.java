@@ -1,12 +1,12 @@
 package aydarss.fork.niffler.aytest;
 
 import aydarss.fork.niffler.ayjupiter.ayannotation.MyGenerateSpend;
-import aydarss.fork.niffler.aymodel.CurrencyValues;
-import aydarss.fork.niffler.aymodel.SpendJson;
 import aydarss.fork.niffler.aypage.LoginPage;
 import aydarss.fork.niffler.aypage.MainPage;
 import aydarss.fork.niffler.aypage.WelcomePage;
 import com.codeborne.selenide.Selenide;
+import guru.qa.niffler.model.CurrencyValues;
+import guru.qa.niffler.model.SpendJson;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

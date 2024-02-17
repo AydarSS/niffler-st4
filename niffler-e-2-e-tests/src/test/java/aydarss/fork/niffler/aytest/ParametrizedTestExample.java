@@ -2,7 +2,7 @@ package aydarss.fork.niffler.aytest;
 
 import aydarss.fork.niffler.ayjupiter.ayannotation.AllureIdParam;
 import aydarss.fork.niffler.ayjupiter.ayconverter.SpendJsonConverter;
-import aydarss.fork.niffler.aymodel.SpendJson;
+import guru.qa.niffler.model.SpendJson;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.CsvSource;

@@ -4,9 +4,8 @@ import static aydarss.fork.niffler.ayjupiter.ayannotation.User.UserType.INVITATI
 
 import aydarss.fork.niffler.ayjupiter.ayannotation.User;
 import aydarss.fork.niffler.ayjupiter.ayextension.UsersQueueExtension;
-import aydarss.fork.niffler.aymodel.UserJson;
-import aydarss.fork.niffler.aypage.AllPeoplePage;
 import com.codeborne.selenide.Selenide;
+import guru.qa.niffler.model.UserJson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

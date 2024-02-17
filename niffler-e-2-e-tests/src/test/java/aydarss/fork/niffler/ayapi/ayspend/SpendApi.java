@@ -1,8 +1,8 @@
 package aydarss.fork.niffler.ayapi.ayspend;
 
-import aydarss.fork.niffler.aymodel.CurrencyValues;
-import aydarss.fork.niffler.aymodel.SpendJson;
-import aydarss.fork.niffler.aymodel.StatisticJson;
+import guru.qa.niffler.model.CurrencyValues;
+import guru.qa.niffler.model.SpendJson;
+import guru.qa.niffler.model.StatisticJson;
 import java.util.Date;
 import java.util.List;
 import retrofit2.Call;

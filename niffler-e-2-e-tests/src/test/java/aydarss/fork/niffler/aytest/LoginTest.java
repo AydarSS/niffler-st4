@@ -1,6 +1,5 @@
 package aydarss.fork.niffler.aytest;
 
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 import aydarss.fork.niffler.aydb.aymodel.Authority;
@@ -9,10 +8,8 @@ import aydarss.fork.niffler.aydb.aymodel.UserAuthEntity;
 import aydarss.fork.niffler.aydb.aymodel.UserEntity;
 import aydarss.fork.niffler.aydb.ayrepository.UserRepository;
 import aydarss.fork.niffler.ayjupiter.ayextension.UserRepositoryExtension;
-import aydarss.fork.niffler.aymodel.CurrencyValues;
-import aydarss.fork.niffler.aypage.LoginPage;
-import aydarss.fork.niffler.aypage.MainPage;
 import com.codeborne.selenide.Selenide;
+import guru.qa.niffler.model.CurrencyValues;
 import java.util.Arrays;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

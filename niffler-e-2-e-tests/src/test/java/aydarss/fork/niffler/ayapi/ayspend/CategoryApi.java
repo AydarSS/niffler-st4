@@ -1,6 +1,6 @@
 package aydarss.fork.niffler.ayapi.ayspend;
 
-import aydarss.fork.niffler.aymodel.CategoryJson;
+import guru.qa.niffler.model.CategoryJson;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;

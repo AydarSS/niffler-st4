@@ -1,7 +1,7 @@
 package aydarss.fork.niffler.ayapi.aycurrency;
 
-import aydarss.fork.niffler.aymodel.CurrencyCalculateJson;
-import aydarss.fork.niffler.aymodel.CurrencyJson;
+import guru.qa.niffler.model.CurrencyCalculateJson;
+import guru.qa.niffler.model.CurrencyJson;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;

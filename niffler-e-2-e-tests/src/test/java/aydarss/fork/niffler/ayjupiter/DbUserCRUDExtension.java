@@ -7,7 +7,7 @@ import aydarss.fork.niffler.aydb.aymodel.UserEntity;
 import aydarss.fork.niffler.aydb.ayrepository.UserRepository;
 import aydarss.fork.niffler.aydb.ayrepository.UserRepositoryJdbc;
 import aydarss.fork.niffler.aydb.ayrepository.UserRepositorySJdbc;
-import aydarss.fork.niffler.aymodel.CurrencyValues;
+import guru.qa.niffler.model.CurrencyValues;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;

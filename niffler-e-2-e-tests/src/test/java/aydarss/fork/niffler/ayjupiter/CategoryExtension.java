@@ -1,7 +1,7 @@
 package aydarss.fork.niffler.ayjupiter;
 
 import aydarss.fork.niffler.ayapi.ayspend.CategoryApi;
-import aydarss.fork.niffler.aymodel.CategoryJson;
+import guru.qa.niffler.model.CategoryJson;
 import java.util.List;
 import java.util.Optional;
 import okhttp3.OkHttpClient;

@@ -1,7 +1,7 @@
 package aydarss.fork.niffler.ayjupiter.ayconverter;
 
-import aydarss.fork.niffler.aymodel.SpendJson;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import guru.qa.niffler.model.SpendJson;
 import java.io.IOException;
 import java.io.InputStream;
 import org.junit.jupiter.api.extension.ParameterContext;

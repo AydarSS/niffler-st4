@@ -4,9 +4,8 @@ import static aydarss.fork.niffler.ayjupiter.ayannotation.User.UserType.WITH_FRI
 
 import aydarss.fork.niffler.ayjupiter.ayannotation.User;
 import aydarss.fork.niffler.ayjupiter.ayextension.UsersQueueExtension;
-import aydarss.fork.niffler.aymodel.UserJson;
-import aydarss.fork.niffler.aypage.FriendsPage;
 import com.codeborne.selenide.Selenide;
+import guru.qa.niffler.model.UserJson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,7 @@ public class FriendsTest extends BaseWebTest {
   void doLogin(@User(WITH_FRIENDS) UserJson user) {
     Selenide.open("http://127.0.0.1:3000/main");
     welcomePage.clickLoginBtn();
-    loginPage.loginByUserAndPassword(user.username(),user.testData().password());
+    loginPage.loginByUserAndPassword(user.username(), user.testData().password());
     mainPage
         .checkThatStatisticDisplayed()
         .getHeader()
@@ -34,25 +33,25 @@ public class FriendsTest extends BaseWebTest {
 
   @DisplayName("Проверим, что есть запись о друзьях")
   @Test
-  void friendsTableShouldHaveRecordAboutFriends(@User(WITH_FRIENDS) UserJson user){
+  void friendsTableShouldHaveRecordAboutFriends(@User(WITH_FRIENDS) UserJson user) {
     friendsPage.checkFriendsStatus(user.testData().friendName());
   }
 
   @DisplayName("Проверим, что количество друзей равно 1")
   @Test
-  void friendsTableShouldHaveOneRecord(){
+  void friendsTableShouldHaveOneRecord() {
     friendsPage.checkCountFriends(1);
   }
 
   @DisplayName("Проверим, что есть кнопка Удалить")
   @Test
-  void friendsTableShouldHaveRemobeBtn(@User(WITH_FRIENDS) UserJson user){
+  void friendsTableShouldHaveRemobeBtn(@User(WITH_FRIENDS) UserJson user) {
     friendsPage.checkRemoveBtn(user.testData().friendName());
   }
 
   @DisplayName("Проверим, что есть аватар")
   @Test
-  void friendsTableShouldHaveAvatar(@User(WITH_FRIENDS) UserJson user){
+  void friendsTableShouldHaveAvatar(@User(WITH_FRIENDS) UserJson user) {
     friendsPage.checkAvatar(user.testData().friendName());
   }
 

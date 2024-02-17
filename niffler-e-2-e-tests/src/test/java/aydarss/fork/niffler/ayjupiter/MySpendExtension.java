@@ -3,7 +3,7 @@ package aydarss.fork.niffler.ayjupiter;
 import aydarss.fork.niffler.ayjupiter.ayannotation.MyGenerateSpend;
 import aydarss.fork.niffler.ayjupiter.aydto.CategoryDto;
 import aydarss.fork.niffler.ayjupiter.aydto.SpendDto;
-import aydarss.fork.niffler.aymodel.SpendJson;
+import guru.qa.niffler.model.SpendJson;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;

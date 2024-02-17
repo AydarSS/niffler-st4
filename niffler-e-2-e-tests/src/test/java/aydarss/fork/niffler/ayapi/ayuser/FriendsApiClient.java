@@ -2,8 +2,8 @@ package aydarss.fork.niffler.ayapi.ayuser;
 
 import aydarss.fork.niffler.ayapi.RestClient;
 import aydarss.fork.niffler.ayconfig.Config;
-import aydarss.fork.niffler.aymodel.FriendJson;
-import aydarss.fork.niffler.aymodel.UserJson;
+import guru.qa.niffler.model.FriendJson;
+import guru.qa.niffler.model.UserJson;
 import java.io.IOException;
 import java.util.List;
 

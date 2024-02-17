@@ -2,7 +2,7 @@ package aydarss.fork.niffler.ayapi.ayspend;
 
 import aydarss.fork.niffler.ayapi.RestClient;
 import aydarss.fork.niffler.ayconfig.Config;
-import aydarss.fork.niffler.aymodel.CategoryJson;
+import guru.qa.niffler.model.CategoryJson;
 import io.qameta.allure.Step;
 import java.io.IOException;
 import java.util.List;

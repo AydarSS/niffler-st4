@@ -1,7 +1,7 @@
 package aydarss.fork.niffler.ayjupiter.ayextension;
 
 import aydarss.fork.niffler.ayjupiter.MySpendExtension;
-import aydarss.fork.niffler.aymodel.SpendJson;
+import guru.qa.niffler.model.SpendJson;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
