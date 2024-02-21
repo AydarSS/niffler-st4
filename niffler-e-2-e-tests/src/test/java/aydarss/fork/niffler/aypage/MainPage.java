@@ -16,6 +16,10 @@ public class MainPage extends BasePage<MainPage> {
   private final SelenideElement deleteSpendingBtn = $(byText("Delete selected"));
   private final SelenideElement statisticsForm = $(".main-content__section-stats");
   private final SpendingTable spendingTable = new SpendingTable();
+  private final SelenideElement allTimeFilter = $(byText("All time"));
+  private final SelenideElement lastMonthFilter = $(byText("Last month"));
+  private final SelenideElement lastWeekFilter = $(byText("Last week"));
+  private final SelenideElement todayFilter = $(byText("Today"));
 
   @Step("Удаляем трату {description}")
   public MainPage deleteFirstRowHistoryOfSpendingsByDescription(String description) {
@@ -45,6 +49,24 @@ public class MainPage extends BasePage<MainPage> {
 
   public SpendingTable getSpendingTable() {
     return spendingTable;
+  }
+
+  @Step("Выделить строку {description}")
+  public MainPage selectRowOfSpendingsByDescription(String description) {
+    historyOfSpendings.$$("tr")
+        .find(text(description))
+        .$$("td")
+        .first();
+    return this;
+  }
+
+  @Step("Выделить строку {index }")
+  public MainPage selectRowOfSpendingsByIndex(int index) {
+    historyOfSpendings.$$("tr")
+        .get(index)
+        .$$("td")
+        .first();
+    return this;
   }
 
 }
