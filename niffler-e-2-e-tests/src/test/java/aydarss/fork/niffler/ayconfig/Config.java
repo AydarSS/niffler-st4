@@ -12,6 +12,8 @@ public interface Config {
 
   String jdbcHost();
 
+  String authUrl();
+
   String spendUrl();
 
   String userUrl();
