@@ -55,8 +55,7 @@ public class MainPage extends BasePage<MainPage> {
   public MainPage selectRowOfSpendingsByDescription(String description) {
     historyOfSpendings.$$("tr")
         .find(text(description))
-        .$$("td")
-        .first();
+        .$("td");
     return this;
   }
 
@@ -64,8 +63,7 @@ public class MainPage extends BasePage<MainPage> {
   public MainPage selectRowOfSpendingsByIndex(int index) {
     historyOfSpendings.$$("tr")
         .get(index)
-        .$$("td")
-        .first();
+        .$("td");
     return this;
   }
 
