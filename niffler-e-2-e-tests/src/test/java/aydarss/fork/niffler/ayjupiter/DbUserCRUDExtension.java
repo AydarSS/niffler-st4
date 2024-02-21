@@ -1,5 +1,6 @@
 package aydarss.fork.niffler.ayjupiter;
 
+import aydarss.fork.niffler.aydb.aylogging.JsonAllureAppender;
 import aydarss.fork.niffler.aydb.aymodel.Authority;
 import aydarss.fork.niffler.aydb.aymodel.AuthorityEntity;
 import aydarss.fork.niffler.aydb.aymodel.UserAuthEntity;
@@ -33,6 +34,8 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
 
   private final UserRepository userRepository = getUserRepository();
 
+  private final JsonAllureAppender jsonAllureAppender = new JsonAllureAppender();
+
   private final String fakeUserPassword = "12345";
 
   static String userAuthKey = "userAuthDB";
@@ -64,7 +67,10 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
 
     userEntity.setUsername(myDbUser.username().equals("") ? fakeRandomUser : myDbUser.username());
     userEntity.setCurrency(CurrencyValues.RUB);
-    userRepository.createInUserdata(userEntity);
+
+    UserEntity created = userRepository.createInUserdata(userEntity);
+
+    jsonAllureAppender.logJson(created, "create in userdata");
 
     userAuthEntity.setUsername(
         myDbUser.username().equals("") ? fakeRandomUser : myDbUser.username());
@@ -82,7 +88,9 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
         }).toList()
     );
 
-    userRepository.createInAuth(userAuthEntity);
+    UserAuthEntity createdUserAuth = userRepository.createInAuth(userAuthEntity);
+
+    jsonAllureAppender.logJson(createdUserAuth, "create in auth");
 
     Map<String, Object> userData = new HashMap<>();
     userData.put(userAuthKey, userAuthEntity);
