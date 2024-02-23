@@ -1,15 +1,19 @@
 package aydarss.fork.niffler.ayjupiter.ayextension;
 
 import aydarss.fork.niffler.ayapi.ayauth.AuthApiClient;
+import aydarss.fork.niffler.ayapi.aycookie.CookieInterceptor;
 import aydarss.fork.niffler.ayapi.aycookie.ThreadSafeCookieManager;
 import aydarss.fork.niffler.ayconfig.Config;
+import aydarss.fork.niffler.aydb.aymodel.UserAuthEntity;
+import aydarss.fork.niffler.ayjupiter.DbUserCRUDExtension;
 import aydarss.fork.niffler.ayjupiter.ayannotation.ApiLogin;
 import aydarss.fork.niffler.utils.OauthUtils;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SessionStorage;
 import com.codeborne.selenide.WebDriverRunner;
-
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -36,7 +40,8 @@ public class ApiLoginExtension implements BeforeEachCallback, AfterTestExecution
       final String codeChallenge = OauthUtils.generateCodeChallange(codeVerifier);
       setCodeVerifier(extensionContext, codeVerifier);
       setCodChallenge(extensionContext, codeChallenge);
-      authApiClient.doLogin(extensionContext, apiLogin.username(), apiLogin.password());
+      List<String> credentials = getCredentials(apiLogin,extensionContext);
+      authApiClient.doLogin(extensionContext,credentials.get(0), credentials.get(1));
 
       Selenide.open(CFG.frontUrl());
       SessionStorage sessionStorage = Selenide.sessionStorage();
@@ -95,13 +100,28 @@ public class ApiLoginExtension implements BeforeEachCallback, AfterTestExecution
   }
 
   public static String getCsrfToken() {
-    return ThreadSafeCookieManager.INSTANCE.getCookieValue("XSRF-TOKEN");
+    return CookieInterceptor.INSTANCE.getCookie("XSRF-TOKEN");
   }
 
   public Cookie jsessionCookie() {
     return new Cookie(
         "JSESSIONID",
-        ThreadSafeCookieManager.INSTANCE.getCookieValue("JSESSIONID")
+        CookieInterceptor.INSTANCE.getCookie("JSESSIONID")
     );
+  }
+
+  private List<String> getCredentials (ApiLogin apiLogin, ExtensionContext extensionContext) {
+    List<String> listOfUsernameAndPassword = new ArrayList<>();
+    if (apiLogin.user().username().equals("notDefined")) {
+      listOfUsernameAndPassword.add(apiLogin.username());
+      listOfUsernameAndPassword.add(apiLogin.password());
+      return listOfUsernameAndPassword;
+    }
+    Map userDataMap = extensionContext.getStore(DbUserCRUDExtension.NAMESPACE)
+        .get(extensionContext.getUniqueId(), Map.class);
+    UserAuthEntity userAuthEntity = (UserAuthEntity) userDataMap.get("userAuthDB");
+    listOfUsernameAndPassword.add(userAuthEntity.getUsername());
+    listOfUsernameAndPassword.add(userAuthEntity.getPassword());
+    return listOfUsernameAndPassword;
   }
 }

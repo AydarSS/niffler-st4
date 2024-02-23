@@ -19,7 +19,8 @@ public class ApiLoginExtension implements BeforeEachCallback, AfterTestExecution
   private static final Config CFG = Config.getInstance();
   private final AuthApiClient authApiClient = new AuthApiClient();
 
-  public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(ApiLoginExtension.class);
+  public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(
+      ApiLoginExtension.class);
 
 
   @Override
