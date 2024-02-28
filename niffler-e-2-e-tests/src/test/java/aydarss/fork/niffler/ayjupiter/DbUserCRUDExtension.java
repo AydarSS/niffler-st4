@@ -8,6 +8,7 @@ import aydarss.fork.niffler.aydb.aymodel.UserEntity;
 import aydarss.fork.niffler.aydb.ayrepository.UserRepository;
 import aydarss.fork.niffler.aydb.ayrepository.UserRepositoryJdbc;
 import aydarss.fork.niffler.aydb.ayrepository.UserRepositorySJdbc;
+import aydarss.fork.niffler.ayjupiter.ayannotation.ApiLogin;
 import guru.qa.niffler.model.CurrencyValues;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,7 +53,9 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
 
     Optional<Method> methodAnnotatedByUser = methods
         .stream()
-        .filter(method -> method.isAnnotationPresent(MyDbUser.class))
+        .filter(method -> method.isAnnotationPresent(MyDbUser.class) ||
+            (method.isAnnotationPresent(ApiLogin.class) &&
+                !method.getAnnotation(ApiLogin.class).user().username().equals("notDefined")))
         .findFirst();
 
     if (methodAnnotatedByUser.isEmpty()) {
@@ -61,7 +65,7 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
     UserAuthEntity userAuthEntity = new UserAuthEntity();
     UserEntity userEntity = new UserEntity();
 
-    MyDbUser myDbUser = methodAnnotatedByUser.get().getAnnotation(MyDbUser.class);
+    MyDbUser myDbUser = getMyDbUser(methodAnnotatedByUser.get());
 
     String fakeRandomUser = UUID.randomUUID().toString();
 
@@ -102,6 +106,9 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
   public void afterTestExecution(ExtensionContext extensionContext) {
     Map userDataMap = extensionContext.getStore(NAMESPACE)
         .get(extensionContext.getUniqueId(), Map.class);
+    if (Objects.isNull(userDataMap)) {
+      return;
+    }
     UserEntity userEntity = (UserEntity) userDataMap.get(userdataKey);
     UserAuthEntity userAuthEntity = (UserAuthEntity) userDataMap.get(userAuthKey);
 
@@ -123,6 +130,9 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
   public Object resolveParameter(ParameterContext parameterContext,
       ExtensionContext extensionContext) throws ParameterResolutionException {
     Map users = extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), Map.class);
+    if (Objects.isNull(users)) {
+      return null;
+    }
     return users.get(userAuthKey);
   }
 
@@ -135,5 +145,11 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
       System.out.println("uses UserRepositorySJdbc");
       return new UserRepositorySJdbc();
     }
+  }
+
+  private MyDbUser getMyDbUser(Method method) {
+    return method.isAnnotationPresent(MyDbUser.class) ?
+        method.getAnnotation(MyDbUser.class)  :
+        method.getAnnotation(ApiLogin.class).user();
   }
 }

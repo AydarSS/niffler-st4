@@ -1,6 +1,7 @@
 package aydarss.fork.niffler.ayapi.ayauth;
 
 import aydarss.fork.niffler.ayapi.RestClient;
+import aydarss.fork.niffler.ayapi.aycookie.CookieInterceptor;
 import aydarss.fork.niffler.ayapi.ayinterceptor.CodeInterceptor;
 import aydarss.fork.niffler.ayjupiter.ayextension.ApiLoginExtension;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -18,7 +19,8 @@ public class AuthApiClient extends RestClient {
     super(
         CFG.authUrl(),
         true,
-        new CodeInterceptor()
+        new CodeInterceptor(),
+        CookieInterceptor.INSTANCE
     );
     authApi = retrofit.create(AuthApi.class);
   }
