@@ -1,7 +1,8 @@
 package aydarss.fork.niffler.ayapi.ayinterceptor;
 
-import guru.qa.niffler.jupiter.extension.ApiLoginExtension;
-import guru.qa.niffler.jupiter.extension.ContextHolderExtension.Holder;
+
+import aydarss.fork.niffler.ayjupiter.ayextension.ApiLoginExtension;
+import aydarss.fork.niffler.ayjupiter.ayextension.ContextHolderExtension.Holder;
 import java.io.IOException;
 import okhttp3.Interceptor;
 import okhttp3.Response;

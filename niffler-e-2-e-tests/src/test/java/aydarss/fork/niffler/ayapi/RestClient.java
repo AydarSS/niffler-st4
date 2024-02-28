@@ -69,7 +69,7 @@ public abstract class RestClient {
         builder.addNetworkInterceptor(interceptor);
       }
     }
-    builder.cookieJar(new JavaNetCookieJar(new CookieManager(ThreadSafeCookieManager.INSTANCE, CookiePolicy.ACCEPT_ALL)));
+ //   builder.cookieJar(new JavaNetCookieJar(new CookieManager(ThreadSafeCookieManager.INSTANCE, CookiePolicy.ACCEPT_ALL)));
     builder.addNetworkInterceptor(
         new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     );

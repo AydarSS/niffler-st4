@@ -9,6 +9,8 @@ import io.qameta.allure.Step;
 
 public class ProfilePage extends BasePage<ProfilePage> {
 
+  public static final String URL = CFG.frontUrl() + "/profile";
+
   private final SelenideElement nameInput = $("input[name='firstname']");
   private final SelenideElement surnameInput = $("input[name='surname']");
   private final SelenideElement submitBtn = $("button[type='submit']");
