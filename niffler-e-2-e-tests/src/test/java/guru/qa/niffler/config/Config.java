@@ -20,6 +20,8 @@ public interface Config {
 
   String currencyUrl();
 
+  String currencyGrpcHost();
+
   default String jdbcUser() {
     return "postgres";
   }
@@ -30,5 +32,9 @@ public interface Config {
 
   default int jdbcPort() {
     return 5432;
+  }
+
+  default int currencyGrpcPort() {
+    return 8092;
   }
 }

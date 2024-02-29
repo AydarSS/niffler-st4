@@ -7,7 +7,6 @@ import guru.qa.niffler.db.model.AuthorityEntity;
 import guru.qa.niffler.db.model.CurrencyValues;
 import guru.qa.niffler.db.model.UserAuthEntity;
 import guru.qa.niffler.db.model.UserEntity;
-import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import java.util.ArrayList;
 import java.util.HashSet;
