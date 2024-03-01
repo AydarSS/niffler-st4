@@ -1,11 +1,8 @@
-package aydarss.fork.niffler.aytest;
+package aydarss.fork.niffler.aytest.web;
 
 import aydarss.fork.niffler.aydb.aymodel.UserAuthEntity;
 import aydarss.fork.niffler.ayjupiter.DbUserCRUDExtension;
 import aydarss.fork.niffler.ayjupiter.MyDbUser;
-import aydarss.fork.niffler.aypage.LoginPage;
-import aydarss.fork.niffler.aypage.MainPage;
-import aydarss.fork.niffler.aypage.WelcomePage;
 import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

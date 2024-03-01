@@ -1,4 +1,4 @@
-package aydarss.fork.niffler.aytest;
+package aydarss.fork.niffler.aytest.web;
 
 import static aydarss.fork.niffler.ayjupiter.ayannotation.User.UserType.INVITATION_RECIEVED;
 

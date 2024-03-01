@@ -1,4 +1,4 @@
-package aydarss.fork.niffler.aytest;
+package aydarss.fork.niffler.aytest.web;
 
 import static com.codeborne.selenide.Selenide.$;
 
