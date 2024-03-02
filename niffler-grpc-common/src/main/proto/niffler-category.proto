@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package guru.qa.grpc.niffler;
+
+option java_multiple_files = true;
+option java_package = "guru.qa.grpc.niffler.grpc";
+option java_outer_classname = "NifflerCategoryProto";
+
+service NifflerCategoryService {
+  rpc GetAllCategories (CategoriesRequest) returns (CategoriesResponse) {}
+  rpc AddCategory (Category) returns (Category) {}
+}
+
+message CategoriesRequest {
+  string username = 1;
+}
+
+message CategoriesResponse {
+  repeated Category allCategories = 1;
+}
+
+message Category {
+  string id = 1;
+  string category = 2;
+  string username = 3;
+}
+

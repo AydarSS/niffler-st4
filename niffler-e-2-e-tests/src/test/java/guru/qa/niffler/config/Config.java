@@ -37,4 +37,10 @@ public interface Config {
   default int currencyGrpcPort() {
     return 8092;
   }
+
+  String spendGrpcHost();
+
+  default int spenGrpcPort() {
+    return 8099;
+  }
 }
