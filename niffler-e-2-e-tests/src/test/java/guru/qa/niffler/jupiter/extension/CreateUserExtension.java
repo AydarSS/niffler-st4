@@ -1,15 +1,15 @@
 package guru.qa.niffler.jupiter.extension;
 
-import guru.qa.niffler.db.model.Authority;
-import guru.qa.niffler.db.model.AuthorityEntity;
-import guru.qa.niffler.db.model.CurrencyValues;
-import guru.qa.niffler.db.model.UserAuthEntity;
-import guru.qa.niffler.db.model.UserEntity;
-import guru.qa.niffler.db.repository.UserRepository;
-import guru.qa.niffler.db.repository.UserRepositoryHibernate;
-import guru.qa.niffler.jupiter.annotation.DbUser;
-import guru.qa.niffler.utils.DataUtils;
-import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
+import guru.qa.niffler.jupiter.annotation.ApiLogin;
+import guru.qa.niffler.jupiter.annotation.TestUser;
+import guru.qa.niffler.jupiter.annotation.TestUsers;
+import guru.qa.niffler.jupiter.annotation.User;
+import guru.qa.niffler.model.UserJson;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -17,85 +17,82 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.platform.commons.support.AnnotationSupport;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
+public abstract class CreateUserExtension implements BeforeEachCallback, ParameterResolver {
 
-public class CreateUserExtension implements BeforeEachCallback, AfterTestExecutionCallback, ParameterResolver {
-
-  public static final ExtensionContext.Namespace DB_CREATE_USER_NAMESPACE
+  public static final ExtensionContext.Namespace CREATE_USER_NAMESPACE
       = ExtensionContext.Namespace.create(CreateUserExtension.class);
-
-  private static UserRepository userRepository = new UserRepositoryHibernate();
-
 
   @Override
   public void beforeEach(ExtensionContext extensionContext) throws Exception {
-    Optional<DbUser> dbUserAnnotation = AnnotationSupport.findAnnotation(
-        extensionContext.getRequiredTestMethod(),
-        DbUser.class
-    );
+    Map<User.Point, List<TestUser>> usersForTest = extractUsersForTest(extensionContext);
 
-    if (dbUserAnnotation.isPresent()) {
-      DbUser dbUser = dbUserAnnotation.get();
-      String username = dbUser.username().isEmpty()
-          ? DataUtils.generateRandomUsername()
-          : dbUser.username();
-      String password = dbUser.password().isEmpty()
-          ? "12345"
-          : dbUser.password();
+    Map<User.Point, List<UserJson>> createdUsers = new HashMap<>();
+    for (Map.Entry<User.Point, List<TestUser>> userInfo : usersForTest.entrySet()) {
+      List<UserJson> usersForPoint = new ArrayList<>();
+      for (TestUser testUser : userInfo.getValue()) {
+        usersForPoint.add(createUser(testUser));
+      }
+      createdUsers.put(userInfo.getKey(), usersForPoint);
+    }
 
-      UserAuthEntity userAuth = new UserAuthEntity();
-      userAuth.setUsername(username);
-      userAuth.setPassword(password);
-      userAuth.setEnabled(true);
-      userAuth.setAccountNonExpired(true);
-      userAuth.setAccountNonLocked(true);
-      userAuth.setCredentialsNonExpired(true);
-      AuthorityEntity[] authorities = Arrays.stream(Authority.values()).map(
-          a -> {
-            AuthorityEntity ae = new AuthorityEntity();
-            ae.setAuthority(a);
-            return ae;
-          }
-      ).toArray(AuthorityEntity[]::new);
+    extensionContext.getStore(CREATE_USER_NAMESPACE)
+        .put(extensionContext.getUniqueId(), createdUsers);
+  }
 
-      userAuth.addAuthorities(authorities);
+  public abstract UserJson createUser(TestUser user);
 
-      UserEntity user = new UserEntity();
-      user.setUsername(username);
-      user.setCurrency(CurrencyValues.RUB);
+  public abstract UserJson createCategory(TestUser user, UserJson createdUser);
 
-      userRepository.createInAuth(userAuth);
-      userRepository.createInUserdata(user);
+  public abstract UserJson createSpend(TestUser user, UserJson createdUser);
 
-      Map<String, Object> createdUser = Map.of(
-          "auth", userAuth,
-          "userdata", user
-      );
+  @Override
+  public boolean supportsParameter(ParameterContext parameterContext,
+      ExtensionContext extensionContext) throws ParameterResolutionException {
+    return AnnotationSupport.findAnnotation(parameterContext.getParameter(), User.class).isPresent()
+        &&
+        (parameterContext.getParameter().getType().isAssignableFrom(UserJson.class) ||
+            parameterContext.getParameter().getType().isAssignableFrom(UserJson[].class));
+  }
 
-      extensionContext.getStore(DB_CREATE_USER_NAMESPACE).put(extensionContext.getUniqueId(), createdUser);
+  @Override
+  public Object resolveParameter(ParameterContext parameterContext,
+      ExtensionContext extensionContext) throws ParameterResolutionException {
+    User user = AnnotationSupport.findAnnotation(parameterContext.getParameter(), User.class).get();
+    Map<User.Point, List<UserJson>> createdUsers = extensionContext.getStore(CREATE_USER_NAMESPACE)
+        .get(extensionContext.getUniqueId(), Map.class);
+    List<UserJson> userJsons = createdUsers.get(user.value());
+    if (parameterContext.getParameter().getType().isAssignableFrom(UserJson[].class)) {
+      return userJsons.stream().toList().toArray(new UserJson[0]);
+    } else {
+      return userJsons.get(0);
     }
   }
 
-  @Override
-  public void afterTestExecution(ExtensionContext extensionContext) throws Exception {
-    Map createdUser = extensionContext.getStore(DB_CREATE_USER_NAMESPACE)
-        .get(extensionContext.getUniqueId(), Map.class);
-    userRepository.deleteInAuthById(((UserAuthEntity) createdUser.get("auth")).getId());
-    userRepository.deleteInUserdataById(((UserEntity) createdUser.get("userdata")).getId());
+  private Map<User.Point, List<TestUser>> extractUsersForTest(ExtensionContext context) {
+    Map<User.Point, List<TestUser>> result = new HashMap<>();
+    AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), ApiLogin.class).ifPresent(
+        apiLogin -> {
+          TestUser user = apiLogin.user();
+          if (!user.fake()) {
+            result.put(User.Point.INNER, List.of(user));
+          }
+        }
+    );
+    List<TestUser> outerUsers = new ArrayList<>();
+    AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), TestUser.class).ifPresent(
+        tu -> {
+          if (!tu.fake()) {
+            outerUsers.add(tu);
+          }
+        }
+    );
+    AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), TestUsers.class).ifPresent(
+        testUsers -> Arrays.stream(testUsers.value())
+            .filter(tu -> !tu.fake())
+            .forEach(outerUsers::add)
+    );
+    result.put(User.Point.OUTER, outerUsers);
+    return result;
   }
 
-  @Override
-  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    return AnnotationSupport.findAnnotation(extensionContext.getRequiredTestMethod(), DbUser.class)
-        .isPresent() &&
-        parameterContext.getParameter().getType().isAssignableFrom(UserAuthEntity.class);
-  }
-
-  @Override
-  public UserAuthEntity resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    return (UserAuthEntity) extensionContext.getStore(DB_CREATE_USER_NAMESPACE).get(extensionContext.getUniqueId(), Map.class)
-        .get("auth");
-  }
 }

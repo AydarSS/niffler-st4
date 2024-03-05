@@ -38,7 +38,8 @@ public record UserJson(
         null,
         new TestData(
             password,
-            friendName
+            friendName,
+            null
         )
     );
   }
