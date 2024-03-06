@@ -23,6 +23,7 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
   @Nullable
   UserEntity findByUsername(@Nonnull String username);
 
+
   class Fake implements UserRepository {
 
     private final List<UserEntity> userEntities = new ArrayList<>();

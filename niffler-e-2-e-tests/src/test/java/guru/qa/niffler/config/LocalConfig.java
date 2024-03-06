@@ -43,4 +43,9 @@ public class LocalConfig implements Config {
     return "http://127.0.0.1:8091";
   }
 
+
+  @Override
+  public String currencyGrpcHost() {
+    return "localhost";
+  }
 }

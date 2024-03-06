@@ -1,4 +1,4 @@
-package aydarss.fork.niffler.aytest;
+package aydarss.fork.niffler.aytest.web;
 
 import aydarss.fork.niffler.ayjupiter.ayannotation.MyGenerateSpend;
 import aydarss.fork.niffler.aypage.LoginPage;

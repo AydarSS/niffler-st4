@@ -1,7 +1,5 @@
-package aydarss.fork.niffler.aytest;
+package aydarss.fork.niffler.aytest.web;
 
-import aydarss.fork.niffler.aypage.RegisterPage;
-import aydarss.fork.niffler.aypage.WelcomePage;
 import com.codeborne.selenide.Selenide;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
