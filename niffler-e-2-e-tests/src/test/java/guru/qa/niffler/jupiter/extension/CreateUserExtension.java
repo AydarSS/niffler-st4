@@ -1,21 +1,27 @@
 package guru.qa.niffler.jupiter.extension;
 
+import guru.qa.niffler.db.model.Authority;
+import guru.qa.niffler.db.model.AuthorityEntity;
+import guru.qa.niffler.db.model.CurrencyValues;
+import guru.qa.niffler.db.model.UserAuthEntity;
+import guru.qa.niffler.db.model.UserEntity;
 import guru.qa.niffler.jupiter.annotation.ApiLogin;
 import guru.qa.niffler.jupiter.annotation.TestUser;
 import guru.qa.niffler.jupiter.annotation.TestUsers;
 import guru.qa.niffler.jupiter.annotation.User;
 import guru.qa.niffler.model.UserJson;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.platform.commons.support.AnnotationSupport;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class CreateUserExtension implements BeforeEachCallback, ParameterResolver {
 
@@ -55,11 +61,9 @@ public abstract class CreateUserExtension implements BeforeEachCallback, Paramet
   }
 
   @Override
-  public Object resolveParameter(ParameterContext parameterContext,
-      ExtensionContext extensionContext) throws ParameterResolutionException {
+  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
     User user = AnnotationSupport.findAnnotation(parameterContext.getParameter(), User.class).get();
-    Map<User.Point, List<UserJson>> createdUsers = extensionContext.getStore(CREATE_USER_NAMESPACE)
-        .get(extensionContext.getUniqueId(), Map.class);
+    Map<User.Point, List<UserJson>> createdUsers = extensionContext.getStore(CREATE_USER_NAMESPACE).get(extensionContext.getUniqueId(), Map.class);
     List<UserJson> userJsons = createdUsers.get(user.value());
     if (parameterContext.getParameter().getType().isAssignableFrom(UserJson[].class)) {
       return userJsons.stream().toList().toArray(new UserJson[0]);
@@ -81,9 +85,7 @@ public abstract class CreateUserExtension implements BeforeEachCallback, Paramet
     List<TestUser> outerUsers = new ArrayList<>();
     AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), TestUser.class).ifPresent(
         tu -> {
-          if (!tu.fake()) {
-            outerUsers.add(tu);
-          }
+          if (!tu.fake()) outerUsers.add(tu);
         }
     );
     AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), TestUsers.class).ifPresent(
