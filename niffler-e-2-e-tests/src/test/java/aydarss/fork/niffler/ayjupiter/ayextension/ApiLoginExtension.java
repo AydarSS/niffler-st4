@@ -112,7 +112,7 @@ public class ApiLoginExtension implements BeforeEachCallback, AfterTestExecution
 
   private List<String> getCredentials (ApiLogin apiLogin, ExtensionContext extensionContext) {
     List<String> listOfUsernameAndPassword = new ArrayList<>();
-    if (apiLogin.user().username().equals("notDefined")) {
+    if (apiLogin.user().fake()) {
       listOfUsernameAndPassword.add(apiLogin.username());
       listOfUsernameAndPassword.add(apiLogin.password());
       return listOfUsernameAndPassword;

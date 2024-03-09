@@ -2,7 +2,7 @@ package aydarss.fork.niffler.aytest.web;
 
 import aydarss.fork.niffler.aydb.aymodel.UserAuthEntity;
 import aydarss.fork.niffler.ayjupiter.DbUserCRUDExtension;
-import aydarss.fork.niffler.ayjupiter.MyDbUser;
+import aydarss.fork.niffler.ayjupiter.MyTestUser;
 import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ public class MyLoginTest extends BaseWebTest {
 
 
   @Test
-  @MyDbUser(username = "Ivan", password = "12345")
+  @MyTestUser(username = "Ivan", password = "12345")
   @DisplayName("Стастистика должна быть видна после авторизации")
   void statisticShouldBeVisibleAfterLoginWithDbUser(UserAuthEntity userAuth) {
     Selenide.open("http://127.0.0.1:3000/main");
@@ -32,7 +32,7 @@ public class MyLoginTest extends BaseWebTest {
   }
 
   @Test
-  @MyDbUser
+  @MyTestUser
   @DisplayName("Стастистика должна быть видна после авторизации с пустым пользователем")
   void statisticShouldBeVisibleAfterLoginWithEmptyDbUser(UserAuthEntity userAuth) {
     Selenide.open("http://127.0.0.1:3000/main");

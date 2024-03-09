@@ -1,13 +1,13 @@
 package aydarss.fork.niffler.ayjupiter.ayextension;
 
 
-import static aydarss.fork.niffler.ayjupiter.ayannotation.User.UserType.INVITATION_RECIEVED;
-import static aydarss.fork.niffler.ayjupiter.ayannotation.User.UserType.INVITATION_SEND;
-import static aydarss.fork.niffler.ayjupiter.ayannotation.User.UserType.WITH_FRIENDS;
+import static aydarss.fork.niffler.ayjupiter.ayannotation.MyUserQueue.UserType.INVITATION_RECIEVED;
+import static aydarss.fork.niffler.ayjupiter.ayannotation.MyUserQueue.UserType.INVITATION_SEND;
+import static aydarss.fork.niffler.ayjupiter.ayannotation.MyUserQueue.UserType.WITH_FRIENDS;
 import static guru.qa.niffler.model.UserJson.createUser;
 
-import aydarss.fork.niffler.ayjupiter.ayannotation.User;
-import aydarss.fork.niffler.ayjupiter.ayannotation.User.UserType;
+import aydarss.fork.niffler.ayjupiter.ayannotation.MyUserQueue;
+import aydarss.fork.niffler.ayjupiter.ayannotation.MyUserQueue.UserType;
 import guru.qa.niffler.model.UserJson;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -65,14 +65,14 @@ public class UsersQueueExtension implements BeforeEachCallback, AfterTestExecuti
 
     List<Parameter> parameters = methods.stream().map(m -> m.getParameters())
         .flatMap(Arrays::stream)
-        .filter(parameter -> parameter.isAnnotationPresent(User.class))
+        .filter(parameter -> parameter.isAnnotationPresent(MyUserQueue.class))
         .filter(parameter -> parameter.getType().isAssignableFrom(UserJson.class))
         .toList();
 
     Map<UserType, UserJson> testUsers = new HashMap<>();
 
     for (Parameter parameter : parameters) {
-      User annotation = parameter.getAnnotation(User.class);
+      MyUserQueue annotation = parameter.getAnnotation(MyUserQueue.class);
       if (testUsers.containsKey(annotation.value())) {
         continue;
       }
@@ -103,7 +103,7 @@ public class UsersQueueExtension implements BeforeEachCallback, AfterTestExecuti
     return parameterContext.getParameter()
         .getType()
         .isAssignableFrom(UserJson.class) &&
-        parameterContext.getParameter().isAnnotationPresent(User.class);
+        parameterContext.getParameter().isAnnotationPresent(MyUserQueue.class);
   }
 
   @Override
@@ -111,7 +111,7 @@ public class UsersQueueExtension implements BeforeEachCallback, AfterTestExecuti
       ExtensionContext extensionContext) throws ParameterResolutionException {
     return (UserJson) extensionContext.getStore(NAMESPACE)
         .get(extensionContext.getUniqueId(), Map.class)
-        .get(parameterContext.findAnnotation(User.class).get().value());
+        .get(parameterContext.findAnnotation(MyUserQueue.class).get().value());
   }
 
 }

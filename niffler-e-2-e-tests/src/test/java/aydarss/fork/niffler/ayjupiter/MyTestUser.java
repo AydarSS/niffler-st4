@@ -9,7 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith(DbUserCRUDExtension.class)
-public @interface MyDbUser {
+public @interface MyTestUser {
+  boolean fake() default false;
 
   String username() default "";
 

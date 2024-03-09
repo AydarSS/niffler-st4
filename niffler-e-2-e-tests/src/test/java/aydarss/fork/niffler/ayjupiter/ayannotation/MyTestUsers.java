@@ -8,11 +8,8 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface ApiLogin {
-  String username() default "";
+public @interface MyTestUsers {
+  boolean fake() default false;
 
-  String password() default "";
-
-  MyTestUser user() default @MyTestUser(fake = true);
-
+  MyTestUser[] value() default {};
 }

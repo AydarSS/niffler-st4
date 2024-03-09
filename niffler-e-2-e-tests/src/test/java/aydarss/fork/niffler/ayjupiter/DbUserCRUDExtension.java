@@ -53,9 +53,9 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
 
     Optional<Method> methodAnnotatedByUser = methods
         .stream()
-        .filter(method -> method.isAnnotationPresent(MyDbUser.class) ||
+        .filter(method -> method.isAnnotationPresent(MyTestUser.class) ||
             (method.isAnnotationPresent(ApiLogin.class) &&
-                !method.getAnnotation(ApiLogin.class).user().username().equals("notDefined")))
+                !method.getAnnotation(ApiLogin.class).user().fake()))
         .findFirst();
 
     if (methodAnnotatedByUser.isEmpty()) {
@@ -65,11 +65,11 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
     UserAuthEntity userAuthEntity = new UserAuthEntity();
     UserEntity userEntity = new UserEntity();
 
-    MyDbUser myDbUser = getMyDbUser(methodAnnotatedByUser.get());
+    MyTestUser myTestUser = getMyDbUser(methodAnnotatedByUser.get());
 
     String fakeRandomUser = UUID.randomUUID().toString();
 
-    userEntity.setUsername(myDbUser.username().equals("") ? fakeRandomUser : myDbUser.username());
+    userEntity.setUsername(myTestUser.username().equals("") ? fakeRandomUser : myTestUser.username());
     userEntity.setCurrency(CurrencyValues.RUB);
 
     UserEntity created = userRepository.createInUserdata(userEntity);
@@ -77,9 +77,9 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
     jsonAllureAppender.logJson(created, "create in userdata");
 
     userAuthEntity.setUsername(
-        myDbUser.username().equals("") ? fakeRandomUser : myDbUser.username());
+        myTestUser.username().equals("") ? fakeRandomUser : myTestUser.username());
     userAuthEntity.setPassword(
-        myDbUser.password().equals("") ? fakeUserPassword : myDbUser.password());
+        myTestUser.password().equals("") ? fakeUserPassword : myTestUser.password());
     userAuthEntity.setEnabled(true);
     userAuthEntity.setAccountNonExpired(true);
     userAuthEntity.setAccountNonLocked(true);
@@ -121,7 +121,7 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
   public boolean supportsParameter(ParameterContext parameterContext,
       ExtensionContext extensionContext) throws ParameterResolutionException {
     return
-        AnnotationSupport.findAnnotation(extensionContext.getRequiredTestMethod(), MyDbUser.class)
+        AnnotationSupport.findAnnotation(extensionContext.getRequiredTestMethod(), MyTestUser.class)
             .isPresent() &&
             parameterContext.getParameter().getType().isAssignableFrom(UserAuthEntity.class);
   }
@@ -147,9 +147,9 @@ public class DbUserCRUDExtension implements ParameterResolver, BeforeEachCallbac
     }
   }
 
-  private MyDbUser getMyDbUser(Method method) {
-    return method.isAnnotationPresent(MyDbUser.class) ?
-        method.getAnnotation(MyDbUser.class)  :
+  private MyTestUser getMyDbUser(Method method) {
+    return method.isAnnotationPresent(MyTestUser.class) ?
+        method.getAnnotation(MyTestUser.class)  :
         method.getAnnotation(ApiLogin.class).user();
   }
 }

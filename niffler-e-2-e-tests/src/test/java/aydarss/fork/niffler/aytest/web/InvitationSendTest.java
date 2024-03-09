@@ -1,11 +1,11 @@
 package aydarss.fork.niffler.aytest.web;
 
-import static aydarss.fork.niffler.ayjupiter.ayannotation.User.UserType.INVITATION_SEND;
-import static aydarss.fork.niffler.ayjupiter.ayannotation.User.UserType.WITH_FRIENDS;
+import static aydarss.fork.niffler.ayjupiter.ayannotation.MyUserQueue.UserType.INVITATION_SEND;
+import static aydarss.fork.niffler.ayjupiter.ayannotation.MyUserQueue.UserType.WITH_FRIENDS;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import aydarss.fork.niffler.ayjupiter.ayannotation.User;
+import aydarss.fork.niffler.ayjupiter.ayannotation.MyUserQueue;
 import aydarss.fork.niffler.ayjupiter.ayextension.UsersQueueExtension;
 import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.model.UserJson;
@@ -25,7 +25,7 @@ public class InvitationSendTest extends BaseWebTest {
 
   @DisplayName("Проверим, что есть отправленная заявка в друзья и имя совпадает с ожидаемым")
   @Test
-  void invitationTableShouldNotBeEmpty(@User(INVITATION_SEND) UserJson user) {
+  void invitationTableShouldNotBeEmpty(@MyUserQueue(INVITATION_SEND) UserJson user) {
     loginPage.loginByUserAndPassword(user.username(), user.testData().password());
     mainPage
         .checkThatStatisticDisplayed()
@@ -36,7 +36,7 @@ public class InvitationSendTest extends BaseWebTest {
 
   @DisplayName("Проверим, что есть запись о друзьях, ожидающая активации")
   @Test
-  void invitationTableShouldHaveRecordAboutFriends(@User(INVITATION_SEND) UserJson user) {
+  void invitationTableShouldHaveRecordAboutFriends(@MyUserQueue(INVITATION_SEND) UserJson user) {
     loginPage.loginByUserAndPassword(user.username(), user.testData().password());
     mainPage
         .checkThatStatisticDisplayed()
@@ -47,8 +47,8 @@ public class InvitationSendTest extends BaseWebTest {
 
   @DisplayName("Проверим, что есть аватар")
   @Test
-  void invitationTableShouldHaveAvatar(@User(INVITATION_SEND) UserJson user,
-      @User(WITH_FRIENDS) UserJson withFriendsUser) {
+  void invitationTableShouldHaveAvatar(@MyUserQueue(INVITATION_SEND) UserJson user,
+      @MyUserQueue(WITH_FRIENDS) UserJson withFriendsUser) {
     assertAll("Проверка, что пользователь с друзьями выбрался или duck или dima",
         () -> assertTrue(
             withFriendsUser.username().equals("duck") || withFriendsUser.username().equals("dima"))
