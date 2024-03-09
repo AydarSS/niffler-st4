@@ -3,7 +3,6 @@ package guru.qa.niffler.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.UUID;
 
 public record UserJson(
@@ -42,5 +41,17 @@ public record UserJson(
             null
         )
     );
+  }
+  public UserJson addTestData(TestData testData) {
+    return new UserJson(
+        id,
+        username,
+        null,
+        null,
+        CurrencyValues.RUB,
+        null,
+        null,
+        testData
+        );
   }
 }

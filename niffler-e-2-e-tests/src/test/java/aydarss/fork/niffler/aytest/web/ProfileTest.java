@@ -3,19 +3,21 @@ package aydarss.fork.niffler.aytest.web;
 import static aydarss.fork.niffler.ayjupiter.ayannotation.MyUser.Point.OUTER;
 import static aydarss.fork.niffler.aypage.aymessage.SuccessMsg.PROFILE_MSG;
 
-
-import aydarss.fork.niffler.ayjupiter.DbUserCRUDExtension;
+import aydarss.fork.niffler.ayjupiter.GenerateCategory;
 import aydarss.fork.niffler.ayjupiter.MyTestUser;
 import aydarss.fork.niffler.ayjupiter.ayannotation.ApiLogin;
+import aydarss.fork.niffler.ayjupiter.ayannotation.Friendship;
+import aydarss.fork.niffler.ayjupiter.ayannotation.Friendship.FriendshipState;
+import aydarss.fork.niffler.ayjupiter.ayannotation.GenerateSpend;
 import aydarss.fork.niffler.ayjupiter.ayannotation.MyTestUsers;
 import aydarss.fork.niffler.ayjupiter.ayannotation.MyUser;
-import aydarss.fork.niffler.ayjupiter.ayextension.ApiLoginExtension;
 import aydarss.fork.niffler.ayjupiter.ayextension.ContextHolderExtension;
 import aydarss.fork.niffler.ayjupiter.ayextension.MyApiLoginExtension;
-import aydarss.fork.niffler.ayjupiter.ayextension.MyCreateUserExtension;
 import aydarss.fork.niffler.ayjupiter.ayextension.MyDataBaseCreateUserExtension;
+import aydarss.fork.niffler.ayjupiter.ayextension.MyRestCreateUserExtension;
 import aydarss.fork.niffler.aypage.ProfilePage;
 import com.codeborne.selenide.Selenide;
+import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.UserJson;
 import guru.qa.niffler.page.MainPage;
 import guru.qa.niffler.page.message.SuccessMsg;
@@ -24,7 +26,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith({ContextHolderExtension.class, MyDataBaseCreateUserExtension.class, MyApiLoginExtension.class})
+@ExtendWith({ContextHolderExtension.class, MyDataBaseCreateUserExtension.class,
+    MyApiLoginExtension.class})
 public class ProfileTest extends BaseWebTest {
 
   @Test
@@ -110,7 +113,19 @@ public class ProfileTest extends BaseWebTest {
       @MyTestUser,
       @MyTestUser
   })
-  @ApiLogin(user = @MyTestUser)
+  @ApiLogin(user = @MyTestUser(
+      categoryValue = {
+          @GenerateCategory(category = "Супермаркет"),
+          @GenerateCategory(category = "Обувь"),
+      },
+      spendValue = {
+          @GenerateSpend(description = "Продукты", category = "Супермаркет", amount = 123d, currency = CurrencyValues.RUB),
+          @GenerateSpend(description = "Валенки", category = "Обувь", amount = 123d, currency = CurrencyValues.RUB),
+      },
+      withFriends ={
+          @Friendship(friedshipState = FriendshipState.FRIENDS),
+          @Friendship(friedshipState = FriendshipState.INCOME_REQUEST)
+      }))
   void avatarShouldBeDisplayedInHeader(@MyUser() UserJson user,
       @MyUser(OUTER) UserJson[] outerUsers) {
     System.out.println(user);

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith({SpendExtension.class, SpendResolverExtension.class})
 public @interface GenerateSpend {
 
-  String username();
+  String username() default "";
 
   String description();
 

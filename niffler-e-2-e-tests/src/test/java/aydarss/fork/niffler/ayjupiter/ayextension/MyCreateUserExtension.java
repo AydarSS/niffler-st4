@@ -30,7 +30,11 @@ public abstract class MyCreateUserExtension implements BeforeEachCallback, Param
     for (Map.Entry<MyUser.Point, List<MyTestUser>> userInfo : usersForTest.entrySet()) {
       List<UserJson> usersForPoint = new ArrayList<>();
       for (MyTestUser myTestUser : userInfo.getValue()) {
-        usersForPoint.add(createUser(myTestUser));
+        UserJson createdUser = createUser(myTestUser);
+        createCategory(myTestUser, createdUser);
+        createSpend(myTestUser, createdUser);
+        createFriedship(myTestUser,createdUser);
+        usersForPoint.add(createdUser);
       }
       createdUsers.put(userInfo.getKey(), usersForPoint);
     }
@@ -45,19 +49,25 @@ public abstract class MyCreateUserExtension implements BeforeEachCallback, Param
 
   public abstract UserJson createSpend(MyTestUser user, UserJson createdUser);
 
+  public abstract void createFriedship(MyTestUser user, UserJson createdUser);
+
   @Override
   public boolean supportsParameter(ParameterContext parameterContext,
       ExtensionContext extensionContext) throws ParameterResolutionException {
-    return AnnotationSupport.findAnnotation(parameterContext.getParameter(), MyUser.class).isPresent()
-        &&
-        (parameterContext.getParameter().getType().isAssignableFrom(UserJson.class) ||
-            parameterContext.getParameter().getType().isAssignableFrom(UserJson[].class));
+    return
+        AnnotationSupport.findAnnotation(parameterContext.getParameter(), MyUser.class).isPresent()
+            &&
+            (parameterContext.getParameter().getType().isAssignableFrom(UserJson.class) ||
+                parameterContext.getParameter().getType().isAssignableFrom(UserJson[].class));
   }
 
   @Override
-  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    MyUser user = AnnotationSupport.findAnnotation(parameterContext.getParameter(), MyUser.class).get();
-    Map<MyUser.Point, List<UserJson>> createdUsers = extensionContext.getStore(CREATE_USER_NAMESPACE).get(extensionContext.getUniqueId(), Map.class);
+  public Object resolveParameter(ParameterContext parameterContext,
+      ExtensionContext extensionContext) throws ParameterResolutionException {
+    MyUser user = AnnotationSupport.findAnnotation(parameterContext.getParameter(), MyUser.class)
+        .get();
+    Map<MyUser.Point, List<UserJson>> createdUsers = extensionContext.getStore(
+        CREATE_USER_NAMESPACE).get(extensionContext.getUniqueId(), Map.class);
     List<UserJson> userJsons = createdUsers.get(user.value());
     if (parameterContext.getParameter().getType().isAssignableFrom(UserJson[].class)) {
       return userJsons.stream().toList().toArray(new UserJson[0]);
@@ -79,7 +89,9 @@ public abstract class MyCreateUserExtension implements BeforeEachCallback, Param
     List<MyTestUser> outerUsers = new ArrayList<>();
     AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), MyTestUser.class).ifPresent(
         tu -> {
-          if (!tu.fake()) outerUsers.add(tu);
+          if (!tu.fake()) {
+            outerUsers.add(tu);
+          }
         }
     );
     AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), MyTestUsers.class).ifPresent(
