@@ -3,6 +3,7 @@ package aydarss.fork.niffler.ayapi;
 
 import guru.qa.niffler.model.gql.GqlRequest;
 import guru.qa.niffler.model.gql.GqlUser;
+import guru.qa.niffler.model.gql.GqlUsers;
 
 public class GatewayGqlApiClient extends RestClient {
 
@@ -17,6 +18,21 @@ public class GatewayGqlApiClient extends RestClient {
 
   public GqlUser currentUser(String bearerToken, GqlRequest request) throws Exception {
     return graphQlGatewayApi.currentUser(bearerToken, request).execute()
+        .body();
+  }
+
+  public GqlUser getFriends(String bearerToken, GqlRequest request) throws Exception {
+    return graphQlGatewayApi.getFriends(bearerToken, request).execute()
+        .body();
+  }
+
+  public GqlUsers users(String bearerToken, GqlRequest request) throws Exception {
+    return graphQlGatewayApi.users(bearerToken, request).execute()
+        .body();
+  }
+
+  public GqlUser updateUser(String bearerToken, GqlRequest request) throws Exception {
+    return graphQlGatewayApi.updateUser(bearerToken, request).execute()
         .body();
   }
 }
