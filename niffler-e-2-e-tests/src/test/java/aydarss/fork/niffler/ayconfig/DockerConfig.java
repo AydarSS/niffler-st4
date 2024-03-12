@@ -43,4 +43,9 @@ public class DockerConfig implements Config {
   public String currencyUrl() {
     return "http://currency.niffler.dc:8091";
   }
+
+  @Override
+  public String gatewayUrl() {
+    return "http://gateway.niffler.dc:8090";
+  }
 }

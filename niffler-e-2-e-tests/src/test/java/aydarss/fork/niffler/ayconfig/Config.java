@@ -31,4 +31,6 @@ public interface Config {
   default int jdbcPort() {
     return 5432;
   }
+
+  String gatewayUrl();
 }
