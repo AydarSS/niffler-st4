@@ -36,7 +36,6 @@ public interface AuthApi {
   // Response http://127.0.0.1:9000/login
   // Set-Cookie: XSRF-TOKEN=d8b75669-f999-4d7e-ab19-7787e8f32845;
 
-
   // POST FUE http://127.0.0.1:9000/login
   // field _csrf: d8b75669-f999-4d7e-ab19-7787e8f32845
   // field username: duck
@@ -93,4 +92,16 @@ public interface AuthApi {
 //      "token_type": "Bearer",
 //      "expires_in": 3599
 //  }
+
+  @GET("/register")
+  Call<Void> getRegister();
+
+  @POST("/register")
+  @FormUrlEncoded
+  Call<Void> postRegister(
+      @Header("Cookie") String cookie,
+      @Field("username") String user,
+      @Field("password") String password,
+      @Field("passwordSubmit") String passwordSubmit,
+      @Field("_csrf") String csrf);
 }

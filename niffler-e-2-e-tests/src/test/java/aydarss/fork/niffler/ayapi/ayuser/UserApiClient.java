@@ -15,15 +15,15 @@ public class UserApiClient extends RestClient {
     this.userApi = retrofit.create(UserApi.class);
   }
 
-  UserJson updateUserInfo(UserJson user) throws IOException {
+  public UserJson updateUserInfo(UserJson user) throws IOException {
     return userApi.updateUserInfo(user).execute().body();
   }
 
-  UserJson currentUser(String username) throws IOException {
+  public UserJson currentUser(String username) throws IOException {
     return userApi.currentUser(username).execute().body();
   }
 
-  List<UserJson> allUsers(String username) throws IOException {
+  public List<UserJson> allUsers(String username) throws IOException {
     return userApi.allUsers(username).execute().body();
   }
 

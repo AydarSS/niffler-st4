@@ -2,10 +2,10 @@ package aydarss.fork.niffler.ayapi.ayauth;
 
 import aydarss.fork.niffler.ayapi.RestClient;
 import aydarss.fork.niffler.ayapi.aycookie.CookieInterceptor;
-import aydarss.fork.niffler.ayapi.ayinterceptor.CodeInterceptor;
 import aydarss.fork.niffler.ayapi.ayinterceptor.CodeInterceptorForMyApiLogin;
 import aydarss.fork.niffler.ayjupiter.ayextension.MyApiLoginExtension;
 import com.fasterxml.jackson.databind.JsonNode;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -52,5 +52,21 @@ public class AuthApiClientForMyApiLogin extends RestClient {
 
     final String token = responseBody.get("id_token").asText();
     MyApiLoginExtension.setToken(context, token);
+  }
+
+
+  public void doRegister(String username, String password) {
+    try {
+      authApi.getRegister().execute();
+      final String token = CookieInterceptor.INSTANCE.getCookie("XSRF-TOKEN");
+      authApi.postRegister(
+          "XSRF-TOKEN=" + token,
+          username,
+          password,
+          password,
+          token).execute();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

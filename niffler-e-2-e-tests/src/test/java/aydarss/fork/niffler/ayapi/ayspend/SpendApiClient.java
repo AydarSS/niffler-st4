@@ -18,7 +18,7 @@ public class SpendApiClient extends RestClient {
     this.spendApi = retrofit.create(SpendApi.class);
   }
 
-  SpendJson addSpend(SpendJson spend) throws IOException {
+  public SpendJson addSpend(SpendJson spend) throws IOException {
     return spendApi.addSpend(spend).execute().body();
   }
 
