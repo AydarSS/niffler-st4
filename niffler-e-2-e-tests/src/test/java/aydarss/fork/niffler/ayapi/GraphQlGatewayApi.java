@@ -2,6 +2,7 @@ package aydarss.fork.niffler.ayapi;
 
 import guru.qa.niffler.model.gql.GqlRequest;
 import guru.qa.niffler.model.gql.GqlUser;
+import guru.qa.niffler.model.gql.GqlUsers;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
@@ -11,17 +12,17 @@ public interface GraphQlGatewayApi {
 
   @POST("/graphql")
   Call<GqlUser> currentUser(@Header("Authorization") String bearerToken,
-                            @Body GqlRequest gqlRequest);
+      @Body GqlRequest gqlRequest);
 
   @POST("/graphql")
-  Call<Void> getFriends(@Header("Authorization") String bearerToken,
-                        @Body GqlRequest gqlRequest);
+  Call<GqlUser> getFriends(@Header("Authorization") String bearerToken,
+      @Body GqlRequest gqlRequest);
 
   @POST("/graphql")
-  Call<Void> users(@Header("Authorization") String bearerToken,
-                   @Body GqlRequest gqlRequest);
+  Call<GqlUsers> users(@Header("Authorization") String bearerToken,
+      @Body GqlRequest gqlRequest);
 
   @POST("/graphql")
-  Call<Void> updateUser(@Header("Authorization") String bearerToken,
-                        @Body GqlRequest gqlRequest);
+  Call<GqlUser> updateUser(@Header("Authorization") String bearerToken,
+      @Body GqlRequest gqlRequest);
 }

@@ -14,7 +14,7 @@ import org.junit.jupiter.params.converter.ConvertWith;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
-@ExtendWith(GqlRequestResolver.class)
-public @interface GqlRequestFile {
+@ConvertWith(GqlRequestConverter.class)
+public @interface GqlRequestFileConverted {
   String value() default "";
 }

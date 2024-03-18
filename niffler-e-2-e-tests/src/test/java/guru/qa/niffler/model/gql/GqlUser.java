@@ -15,6 +15,7 @@ import java.util.UUID;
 public class GqlUser extends GqlResponse<GqlUser> {
 
   private GqlUser user;
+  private GqlUser updateUser;
 
   @JsonProperty("id")
   private UUID id;
